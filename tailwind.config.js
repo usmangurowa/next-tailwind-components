@@ -57,9 +57,9 @@ module.exports = {
       center: true,
       padding: {
         DEFAULT: "1rem",
-        sm: "2rem",
-        lg: "4rem",
-        xl: "5rem",
+        tablet: "2rem",
+        laptop: "4rem",
+        desktop: "5rem",
         "2xl": "6rem",
       },
     },
@@ -67,6 +67,7 @@ module.exports = {
       tablet: "640px",
       laptop: "1024px",
       desktop: "1280px",
+      "2xl": "1536px",
     },
   },
   variants: {
