@@ -30,6 +30,9 @@ a {
   .paper {
     @apply bg-paper dark:bg-paper-dark shadow-md;
   }
+  svg {
+    @apply fill-current text-inherit;
+  }
 }
 
 /* @media (prefers-color-scheme: dark) {

@@ -31,13 +31,13 @@ const Skeleton = ({
   text,
   ...props
 }: SkeletonProps) => {
-  const sizeClass = size ? `w-${size} h-${size}` : "w-40 h-40";
+  const sizeClass = size ? `w-[${size}px] h-[${size}px]` : "w-40 h-40";
   const classes = clx(
     "animate-pulse overflow-hidden",
     {
       [roundness[rounded || "md"]]: true,
       [sizeClass]: true,
-      "rounded-full w-10 h-10": avatar,
+      "rounded-full": avatar,
       "rounded-md w-20 h-4": text,
     },
     className
