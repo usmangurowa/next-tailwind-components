@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -35,22 +37,46 @@ module.exports = {
         "gray-900": "#1E1E1E", // light mode text
         "gray-950": "#121212", // dark mode background
 
-        // light: {
-        //   primary: "#4287f5",
-        //   accent: "#f542a1",
-        //   background: "#ffffff",
-        //   text: "#333333",
-        //   highlight: "#f5d742",
-        //   "subtle-shade": "#e8e8e8",
-        // },
-        // dark: {
-        //   primary: "#7babf8",
-        //   accent: "#38A3A5",
-        //   background: "#121212",
-        //   text: "#C4C4C4",
-        //   highlight: "#F9FF4F",
-        //   "subtle-shade": "#1E1E1E",
-        // },
+        primary: {
+          DEFAULT: "#4287f5",
+          hover: "#61a6f9",
+          active: "#2665ea",
+
+          dark: {
+            DEFAULT: "#7babf8",
+            hover: "#4287f5",
+            active: "#2665ea",
+          },
+
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#94c6fc",
+          400: "#61a6f9",
+          500: "#4287f5",
+          600: "#2665ea",
+          700: "#1e50d7",
+          800: "#1f42ae",
+          900: "#1f3b89",
+          950: "#172554",
+        },
+
+        secondary: {
+          DEFAULT: "#f5f5f5",
+          hover: "#e3e3e3",
+          active: "#c8c8c8",
+
+          dark: {
+            DEFAULT: "#1E1E1E",
+            hover: "#383838",
+            active: "#515151",
+          },
+        },
+
+        paper: {
+          DEFAULT: "#fff",
+          dark: "#1E1E1E",
+        },
       },
     },
     container: {
@@ -91,6 +117,16 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
+    // plugin(function ({ addBase, addComponents, addUtilities, theme }) {
+    //   addComponents({
+    //     ".paper": {
+    //       backgroundColor: theme.m theme("colors.paper.DEFAULT"),
+    //       borderRadius: theme("borderRadius.lg"),
+    //       padding: theme("spacing.6"),
+    //       boxShadow: theme("boxShadow.xl"),
+    //     },
+    //   });
+    // }),
     // require("tailwindcss-dark-mode"),
   ],
 };

@@ -1,5 +1,19 @@
 import React from "react";
-import classNames from "classnames";
+
+import { clx } from "@/lib/utils";
+
+const roundness = {
+  none: "rounded-none",
+  rounded: "rounded",
+  sm: "rounded-sm",
+  md: "rounded-md",
+  lg: "rounded-lg",
+  xl: "rounded-xl",
+  "2xl": "rounded-2xl",
+  "3xl": "rounded-3xl",
+  full: "rounded-full",
+};
+
 interface InputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -9,19 +23,8 @@ interface InputProps
   variant?: "primary" | "secondary" | "tertiary";
   size?: "sm" | "md" | "lg" | any;
   mode?: "outline" | "solid" | "text";
-  rounded?: "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
+  rounded?: keyof typeof roundness;
 }
-
-const roundness = {
-  none: "rounded-none",
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-  "2xl": "rounded-2xl",
-  "3xl": "rounded-3xl",
-  full: "rounded-full",
-};
 
 const Input = ({
   children,
@@ -35,7 +38,7 @@ const Input = ({
 }: InputProps) => {
   //   const roundedClass = "rounded-" + rounded;
 
-  const classes = classNames(
+  const classes = clx(
     {
       [roundness[rounded]]: true,
       "px-3 py-2 text-sm": size === "sm",

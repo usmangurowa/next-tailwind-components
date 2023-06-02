@@ -3240,6 +3240,11 @@ tabbable@^6.1.2:
   resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-6.1.2.tgz#b0d3ca81d582d48a80f71b267d1434b1469a3703"
   integrity sha512-qCN98uP7i9z0fIS4amQ5zbGBOq+OSigYeGvPy7NDk8Y9yncqDZ9pRPgfsc2PJIVM9RrJj7GIfuRgmjoUU9zTHQ==
 
+tailwind-merge@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.13.0.tgz#1978396b6bbd808878763303b26647adfb3c78c4"
+  integrity sha512-mUTmDbcU+IhOvJ0c42eLQ/nRkvolTqfpVaVQRSxfJAv9TabS6Y2zW/1wKpKLdKzyL3Gh8j6NTLl6MWNmvOM6kA==
+
 tailwindcss-dark-mode@^1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/tailwindcss-dark-mode/-/tailwindcss-dark-mode-1.1.7.tgz#b9b1a49fed12601826c6b6b7e9f98170e4b14abf"

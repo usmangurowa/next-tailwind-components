@@ -26,6 +26,10 @@ a {
   .dark-mode {
     @apply dark:bg-gray-950;
   }
+
+  .paper {
+    @apply bg-paper dark:bg-paper-dark shadow-md;
+  }
 }
 
 /* @media (prefers-color-scheme: dark) {
