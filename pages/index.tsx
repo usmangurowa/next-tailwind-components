@@ -8,6 +8,7 @@ import IconButton from "@/components/common/IconButton";
 import Link from "next/link";
 import Skeleton from "@/components/common/Skeleton";
 import Sheet from "@/components/dialogs/Sheet";
+import Modal from "@/components/dialogs/Modal";
 
 const Index = () => {
   const { setTheme, theme } = useTheme();
@@ -15,10 +16,34 @@ const Index = () => {
   const switchTeam = () => setTheme(theme === "light" ? "dark" : "light");
 
   const [open, setOpen] = React.useState(false);
+  const [modalOpen, setModalOpen] = React.useState(false);
   return (
     <>
-      <Sheet open={open} onClose={() => setOpen(false)} position="bottom">
+      <Sheet open={open} onClose={() => setOpen(false)}>
         <Sheet.Content className="p-10">
+          <Button
+            left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
+            rounded="lg"
+            size="sm"
+            className=""
+            onClick={switchTeam}
+          >
+            Switch Themes
+          </Button>
+          <Button
+            left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
+            rounded="lg"
+            size="sm"
+            className=""
+            mode="outline"
+            onClick={() => setModalOpen(!modalOpen)}
+          >
+            Sheet {open ? "open" : "closed"}
+          </Button>
+        </Sheet.Content>
+      </Sheet>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} responsive>
+        <Modal.Content className="p-10">
           <Button
             left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
             rounded="lg"
@@ -36,10 +61,10 @@ const Index = () => {
             mode="outline"
             onClick={() => setOpen(!open)}
           >
-            Sheet {open ? "open" : "closed"}
+            Modal {modalOpen ? "open" : "closed"}
           </Button>
-        </Sheet.Content>
-      </Sheet>
+        </Modal.Content>
+      </Modal>
       <div className="container min-h-screen gap-5 ">
         <h1 className="text-4xl font-bold">Hello World</h1>
         <Button
@@ -47,9 +72,9 @@ const Index = () => {
           rounded="lg"
           size="sm"
           className=""
-          onClick={switchTeam}
+          onClick={() => setModalOpen(!open)}
         >
-          Switch Theme
+          Open Modal
         </Button>
         <Button
           left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
@@ -59,7 +84,7 @@ const Index = () => {
           mode="outline"
           onClick={() => setOpen(!open)}
         >
-          Sheet {open ? "open" : "closed"}
+          Open Sheet
         </Button>
         <div className="p-10 rounded-md paper">
           <h1 className="text-4xl font-bold">Hello World</h1>

@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import IconButton from "../common/IconButton";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { clx } from "@/lib/utils";
@@ -65,7 +64,8 @@ const SheetContent = ({
       "mr-auto": position === "left",
       "mt-auto": position === "bottom",
       "mb-auto": position === "top",
-      "h-full w-1/2": position === "left" || position === "right",
+      "h-full laptop:w-1/4 tablet:w-1/2 w-4/5":
+        position === "left" || position === "right",
       "h-1/2 w-full": position === "top" || position === "bottom",
     },
     className
@@ -79,7 +79,7 @@ const SheetContent = ({
   });
 
   return (
-    <div className={classes}>
+    <div className={classes} {...props}>
       <IconButton
         className={closeButtonClasses}
         onClick={onClose}
