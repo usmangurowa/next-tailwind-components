@@ -2,6 +2,7 @@ import React from "react";
 import IconButton from "../common/IconButton";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { clx } from "@/lib/utils";
+import FocusTrap from "focus-trap-react";
 
 interface SheetProps extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean;
@@ -29,20 +30,36 @@ const Sheet = ({ onClose, open, children, position = "left" }: SheetProps) => {
     }
   );
 
+  React.useEffect(() => {
+    const onEscaped = (e: KeyboardEvent) => {
+      if (e.keyCode === 27) {
+        onClose && onClose();
+      }
+    };
+
+    document.addEventListener("keydown", onEscaped);
+
+    return () => {
+      document.removeEventListener("keydown", onEscaped);
+    };
+  }, []);
+
   return (
-    <div className={classes}>
-      {React.Children.map(children, (child) => {
-        return React.cloneElement(child as React.ReactElement<any>, {
-          open,
-          position,
-          onClose,
-        });
-      })}
-      <div
-        className="absolute top-0 left-0 w-full h-full z-[99]"
-        onClick={onClose}
-      ></div>
-    </div>
+    <FocusTrap active={open}>
+      <div className={classes}>
+        {React.Children.map(children, (child) => {
+          return React.cloneElement(child as React.ReactElement<any>, {
+            open,
+            position,
+            onClose,
+          });
+        })}
+        <div
+          className="absolute top-0 left-0 w-full h-full z-[99]"
+          onClick={onClose}
+        ></div>
+      </div>
+    </FocusTrap>
   );
 };
 

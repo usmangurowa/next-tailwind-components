@@ -2,6 +2,7 @@ import React from "react";
 import IconButton from "../common/IconButton";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { clx } from "@/lib/utils";
+import FocusTrap from "focus-trap-react";
 
 interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean;
@@ -35,22 +36,38 @@ const Modal = ({
     }
   );
 
-  return (
-    <div className={classes}>
-      {React.Children.map(children, (child) => {
-        return React.cloneElement(child as React.ReactElement<any>, {
-          open,
-          position,
-          onClose,
-          responsive,
-        });
-      })}
+  React.useEffect(() => {
+    const onEscaped = (e: KeyboardEvent) => {
+      if (e.keyCode === 27) {
+        onClose && onClose();
+      }
+    };
 
-      <div
-        className="absolute top-0 left-0 w-full h-full z-[99]"
-        onClick={onClose}
-      ></div>
-    </div>
+    document.addEventListener("keydown", onEscaped);
+
+    return () => {
+      document.removeEventListener("keydown", onEscaped);
+    };
+  }, []);
+
+  return (
+    <FocusTrap active={open}>
+      <div className={classes}>
+        {React.Children.map(children, (child) => {
+          return React.cloneElement(child as React.ReactElement<any>, {
+            open,
+            position,
+            onClose,
+            responsive,
+          });
+        })}
+
+        <div
+          className="absolute top-0 left-0 w-full h-full z-[99]"
+          onClick={onClose}
+        ></div>
+      </div>
+    </FocusTrap>
   );
 };
 
@@ -67,7 +84,7 @@ const ModalContent = ({
   ...props
 }: ModalContentProps) => {
   const classes = clx(
-    "paper shadow-none z-[999] relative overflow-auto",
+    "paper z-[999] relative overflow-auto",
     {
       "w-full laptop:h-[80vh] laptop:w-1/2 laptop:rounded-2xl rounded-t-2xl mt-auto laptop:m-0":
         responsive,

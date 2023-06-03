@@ -65,7 +65,7 @@ const Index = () => {
           </Button>
         </Modal.Content>
       </Modal>
-      <div className="container min-h-screen gap-5 ">
+      <div className="container min-h-screen gap-5 space-x-5 space-y-5 ">
         <h1 className="text-4xl font-bold">Hello World</h1>
         <Button
           left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
