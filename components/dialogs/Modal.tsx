@@ -48,7 +48,7 @@ const Modal = ({
     return () => {
       document.removeEventListener("keydown", onEscaped);
     };
-  }, []);
+  }, [onClose]);
 
   return (
     <FocusTrap active={open}>

@@ -42,7 +42,7 @@ const Sheet = ({ onClose, open, children, position = "left" }: SheetProps) => {
     return () => {
       document.removeEventListener("keydown", onEscaped);
     };
-  }, []);
+  }, [onClose]);
 
   return (
     <FocusTrap active={open}>

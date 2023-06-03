@@ -85,4 +85,6 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   }
 );
 
+IconButton.displayName = "IconButton";
+
 export default React.memo(IconButton);

@@ -80,4 +80,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   }
 );
 
+Input.displayName = "Input";
+
 export default React.memo(Input);
