@@ -25,7 +25,7 @@ interface AvatarProps extends AvatarImageProps {
 
 const Avatar = ({
   src,
-  alt,
+  alt = "avatar",
   delayMs,
   fallback = "US",
   rounded = "md",
@@ -49,7 +49,7 @@ const Avatar = ({
   };
   return (
     <Root className={classes.root}>
-      <Image src={src} className={classes.image} />
+      <Image src={src} className={classes.image} alt={alt} />
       <Fallback className={classes.fallback} delayMs={delayMs}>
         {fallback}
       </Fallback>

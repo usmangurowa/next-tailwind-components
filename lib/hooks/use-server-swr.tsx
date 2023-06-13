@@ -1,7 +1,7 @@
 import React from "react";
 import useSWR, { SWRConfiguration, useSWRConfig } from "swr";
 
-const userServerSWR = (
+const useServerSWR = (
   endpoint: string,
   options?: SWRConfiguration & {
     key?: string;
@@ -24,4 +24,4 @@ const userServerSWR = (
   };
 };
 
-export default userServerSWR;
+export default useServerSWR;
