@@ -17,9 +17,9 @@ interface SheetContentProps extends Omit<SheetProps, "open"> {
 
 const Sheet = ({ onClose, open, children, position = "left" }: SheetProps) => {
   const classes = clx(
-    "fixed z-50 h-screen w-screen flex flex-col  backdrop-blur-sm transition-all ease-in-out duration-300 w-full overflow-hidden",
+    "fixed z-50 h-screen w-screen flex flex-col  backdrop-blur-sm transition-all ease-in-out duration-300 w-full overflow-hidden !m-0 ",
     {
-      "left-0": open && position === "left",
+      "left-0 top-0": open && position === "left",
       "-left-[100%]": !open && position === "left",
       "right-0": open && position === "right",
       "-right-[100%]": !open && position === "right",
@@ -75,7 +75,7 @@ const SheetContent = ({
   ...props
 }: SheetContentProps) => {
   const classes = clx(
-    "paper shadow-none z-[999] relative",
+    "paper shadow-none z-[999] relative !m-0",
     {
       "ml-auto": position === "right",
       "mr-auto": position === "left",

@@ -1,18 +1,7 @@
 import React from "react";
 import { Spinner } from "../loaders";
 import { clx } from "@/lib/utils";
-
-const roundness = {
-  none: "rounded-none",
-  rounded: "rounded",
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-  "2xl": "rounded-2xl",
-  "3xl": "rounded-3xl",
-  full: "rounded-full",
-};
+import { roundness } from "@/lib/constants";
 
 interface ButtonProps
   extends React.DetailedHTMLProps<

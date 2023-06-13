@@ -7,8 +7,10 @@ import FocusTrap from "focus-trap-react";
 interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean;
   onClose?: () => void;
-  position?: "left" | "right" | "top" | "bottom";
+  position?: "left" | "right" | "top" | "bottom" | "center";
+
   responsive?: boolean;
+  transparent?: boolean;
 }
 
 interface ModalContentProps extends Omit<ModalProps, "open"> {
@@ -20,19 +22,23 @@ const Modal = ({
   onClose,
   open,
   children,
-  position = "left",
+  position = "center",
   responsive = false,
+  transparent = false,
 }: ModalProps) => {
   const classes = clx(
-    "flex h-screen w-screen fixed z-50 transition-all ease-in-out duration-300 overflow-hidden",
+    "flex h-screen w-screen fixed z-50 transition-all ease-in-out duration-300 overflow-hidden !m-0",
     {
-      "items-center justify-center opacity-0 scale-0": !responsive,
-      "flex opacity-1  scale-1": open && !responsive,
+      "items-center justify-center opacity-0 scale-0 top-0":
+        !responsive && position === "center",
+      "flex opacity-1  scale-1 top-0":
+        open && !responsive && position === "center",
       "laptop:scale-1 opacity-1 bottom-0": open && responsive,
       "laptop:bottom-0 opacity:0 laptop:scale-0 -bottom-[100%]":
         !open && responsive,
-      "backdrop-blur-sm": open,
       "laptop:items-center laptop:justify-center": responsive,
+      "bg-transparent": transparent,
+      "backdrop-blur-sm": !transparent && open,
     }
   );
 
@@ -77,7 +83,7 @@ const ModalContent = ({
   children,
   className,
   open,
-  position = "left",
+  position = "center",
   withCloseButton = true,
   responsive,
   onClose,
@@ -89,6 +95,7 @@ const ModalContent = ({
       "w-full laptop:h-[80vh] laptop:w-1/2 laptop:rounded-2xl rounded-t-2xl mt-auto laptop:m-0":
         responsive,
       "h-[80vh] laptop:w-1/2 w-4/5 rounded-2xl": !responsive,
+      "": position === "center",
     },
     className
   );

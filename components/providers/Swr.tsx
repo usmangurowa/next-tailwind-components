@@ -1,10 +1,20 @@
 import axios from "@/apis/index";
 import React from "react";
-import { SWRConfig } from "swr";
+import { SWRConfig, SWRConfiguration } from "swr";
 
-const Swr = ({ children }: CommonProp) => {
+const Swr = ({
+  children,
+  value,
+}: CommonProp & { value?: SWRConfiguration }) => {
   return (
-    <SWRConfig value={{ provider: localStorageProvider, fetcher: fetcher }}>
+    <SWRConfig
+      value={{
+        provider: localStorageProvider,
+        fetcher: fetcher,
+        fallbackData: null,
+        ...value,
+      }}
+    >
       {children}
     </SWRConfig>
   );
@@ -35,7 +45,7 @@ function localStorageProvider(): any {
 const fetcher = async (url: string) => {
   const res = await axios.get(url);
 
-  if (res.statusText !== "OK") {
+  if (res.status !== 200) {
     const error = new Error("An error occurred while fetching the data.");
     // @ts-ignore
     error.info = res.data;

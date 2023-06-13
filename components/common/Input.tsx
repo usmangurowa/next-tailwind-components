@@ -1,18 +1,7 @@
 import React from "react";
 
 import { clx } from "@/lib/utils";
-
-const roundness = {
-  none: "rounded-none",
-  rounded: "rounded",
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-  "2xl": "rounded-2xl",
-  "3xl": "rounded-3xl",
-  full: "rounded-full",
-};
+import { roundness } from "@/lib/constants";
 
 interface InputProps
   extends React.DetailedHTMLProps<
@@ -59,20 +48,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         "bg-transparent border-primary dark:border-primary-400 border-2":
           mode === "outline",
       },
-      "transition-all duration-150 ease-in-out ring-0 focus:outline-none outline-none",
+      "transition-all duration-150 ease-in-out outline-none placeholder:text-gray-600",
       className
     );
 
     const labelClasses = clx(
-      "text-sm font-medium text-gray-700 dark:text-gray-300"
+      "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1"
     );
 
     const helperTextClasses = clx();
 
-    const containerClasses = clx("w-fit space-y-2");
+    const containerClasses = clx("flex flex-col w-fit space-y-1");
 
     return (
-      <div className="">
+      <div className={containerClasses}>
         {label && <label className={labelClasses}>{label}</label>}
         <input ref={ref} className={classes} {...props} />
       </div>
