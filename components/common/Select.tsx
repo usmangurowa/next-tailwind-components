@@ -242,18 +242,11 @@ const Select = ({
         aria-label="drop-down"
         role="button"
         onClick={() => handleChange(opt)}
-        className={
-          classes.option +
-          `${
-            (
-              multiple
-                ? (selected as OptionType[])?.includes(opt)
-                : opt.value === (selected as OptionType)?.value
-            )
-              ? "dark:bg-dark bg-gray-50"
-              : ""
-          }`
-        }
+        className={clsx(classes.option, {
+          "bg-gray-50 dark:bg-dark": multiple
+            ? (selected as OptionType[])?.includes(opt)
+            : opt.value === (selected as OptionType)?.value,
+        })}
         key={opt.value}
       >
         {opt.label}
