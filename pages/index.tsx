@@ -48,144 +48,23 @@ const Index = () => {
 
   return (
     <>
-      {/* <Sheet open={open} onClose={() => setOpen(false)}>
-        <Sheet.Content className="p-10">
-          <Button
-            left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
-            rounded="lg"
-            size="sm"
-            className=""
-            onClick={switchTeam}
-          >
-            Switch Themes
-          </Button>
-          <Button
-            left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
-            rounded="lg"
-            size="sm"
-            className=""
-            mode="outline"
-            onClick={() => setModalOpen(!modalOpen)}
-          >
-            Sheet {open ? "open" : "closed"}
-          </Button>
-        </Sheet.Content>
-      </Sheet>
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} responsive>
-        <Modal.Content className="p-10">
-          <Button
-            left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
-            rounded="lg"
-            size="sm"
-            className=""
-            onClick={switchTeam}
-          >
-            Switch Themes
-          </Button>
-          <Button
-            left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
-            rounded="lg"
-            size="sm"
-            className=""
-            mode="outline"
-            onClick={() => setOpen(!open)}
-          >
-            Modal {modalOpen ? "open" : "closed"}
-          </Button>
-        </Modal.Content>
-      </Modal>
-      <Modal
-        open={!!router.query.id}
-        onClose={() => router.push("/")}
-        responsive
-      >
-        <Modal.Content className="p-10">
-          <h1>{router.query.id} Blog</h1>
-        </Modal.Content>
-      </Modal> */}
-
-      <Overlay position="bottom" open={open} onClose={() => setOpen(false)}>
-        <Overlay.Content className="w-1/4 paper max-h-[80vh] overflow-x-hidden overflow-y-auto rounded-lg p-5">
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-          <Input className="w-full" label="Usman" />
-        </Overlay.Content>
-      </Overlay>
       <div className="container min-h-screen gap-5 space-x-5 space-y-5 ">
-        {/* <Tab
-          orientation="vertical"
-          defaultValue={"home"}
-          value={activeTab}
-          onValueChange={switchTab}
-        >
-          <Tab.Items>
-            <Tab.Item value="home">Home</Tab.Item>
-            <Tab.Item value="about">About</Tab.Item>
-          </Tab.Items>
-          <Tab.Content value="home">Home Content</Tab.Content>
-          <Tab.Content value="about">About Content</Tab.Content>
-        </Tab>
-        <Tab
-          // orientation="vertical"
-          defaultValue={"home"}
-          value={activeTab}
-          onValueChange={switchTab}
-        >
-          <Tab.Items>
-            <Tab.Item value="home">Home</Tab.Item>
-            <Tab.Item value="about">About</Tab.Item>
-          </Tab.Items>
-          <Tab.Content value="home">Home Content</Tab.Content>
-          <Tab.Content value="about">About Content</Tab.Content>
-        </Tab> */}
-
-        <div className={""}>
-          <h2>With QueryString Routing, and a reload won't use the modal</h2>
-          <div className={"grid grid-cols-4 gap-4"}>
-            {data.map((id, index) => (
-              <Link
-                key={index}
-                href={`/?id=${id}`}
-                as={`/blog/${id}`}
-                className={"font-bold paper p-5 rounded-xl"}
-              >
-                {id}
-              </Link>
-            ))}
-          </div>
-
-          <h2>With Dynamic Routing, and reloads will keep the modal</h2>
-          <div className={"grid grid-cols-4 gap-4"}>
-            {data.map((id, index) => (
-              <Link
-                key={index}
-                href="/blog/[id]"
-                as={`/blog/${id}`}
-                className={"font-bold paper p-5 rounded-xl"}
-              >
-                {id} blog
-              </Link>
-            ))}
-          </div>
-        </div>
+        <Sheet open={open} onClose={() => setOpen(false)}>
+          <Sheet.Content className="w-full h-full">
+            <ul>
+              {data.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </Sheet.Content>
+        </Sheet>
 
         <Link href="/blog">Go to blog</Link>
         <h1 className="text-4xl font-bold">Hello World</h1>
         <Button
           left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
-          rounded="lg"
-          size="sm"
+          // rounded="lg"
+          // size="sm"
           className=""
           onClick={() => setModalOpen(!open)}
         >
@@ -196,7 +75,7 @@ const Index = () => {
           rounded="lg"
           size="sm"
           className=""
-          mode="outline"
+          mode="outlined"
           onClick={() => setOpen(!open)}
         >
           Open Sheet
@@ -208,7 +87,8 @@ const Index = () => {
           left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
           rounded="lg"
           size="sm"
-          className=""
+          className="bg-secondary"
+          variant="secondary"
           mode="text"
           onClick={switchTeam}
         >

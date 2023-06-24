@@ -1,8 +1,40 @@
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
-
+import { cva as CVA, VariantProps, CxOptions } from "cva";
 export const clx = (...classes: classNames.ArgumentArray) =>
   twMerge(classNames(classes));
+
+interface CvaProps {
+  className?: classNames.Argument;
+  cva?: {
+    variants?: object;
+    defaultVariants?: object;
+  };
+  values?: object;
+  config?: {
+    id: string;
+    replacer?: string;
+  };
+}
+
+export const cvaPlus = ({ className, cva, values, config }: CvaProps) => {
+  return twMerge(
+    classNames(className),
+    CVA(cva)(values).replaceAll(`{${config?.id}}`, config?.replacer || "")
+  );
+};
+
+export const cvaPlaceholder = (
+  cva: string,
+  config?: { placeholder: string; value: string }
+) => {
+  if (!cva) return;
+  if (!config) return cva;
+  return cva.replaceAll(
+    `{${config?.placeholder}}` || "{ID}",
+    config?.value || ""
+  );
+};
 
 export const pseudoClx = (value: object) => {
   const result = [];

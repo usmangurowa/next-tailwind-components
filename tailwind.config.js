@@ -6,8 +6,10 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class", // or 'media' or 'class'
+  mode: "jit",
   theme: {
     extend: {
       colors: {
@@ -51,15 +53,27 @@ module.exports = {
         },
 
         secondary: {
-          DEFAULT: "#f5f5f5",
-          hover: "#e3e3e3",
-          active: "#c8c8c8",
+          DEFAULT: "#00cf92",
+          hover: "#00a979",
+          active: "#008764",
 
           dark: {
-            DEFAULT: "#1E1E1E",
-            hover: "#383838",
-            active: "#515151",
+            DEFAULT: "#00cf92",
+            hover: "#00a979",
+            active: "#008764",
           },
+
+          50: "#eafff6",
+          100: "#ccffe8",
+          200: "#9dfdd6",
+          300: "#42f5b7",
+          400: "#20e7a9",
+          500: "#00cf92",
+          600: "#00a979",
+          700: "#008764",
+          800: "#006a50",
+          900: "#005743",
+          950: "#003127",
         },
 
         paper: {
@@ -107,55 +121,36 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
-      addUtilities(
-        {
-          ".w-xs": { width: theme("space.12") },
-          ".w-sm": { width: theme("space.14") },
-          ".w-md": { width: theme("space.16") },
-          ".w-lg": { width: theme("space.18") },
-          ".w-xl": { width: theme("space.20") },
-          ".w-2xl": { width: theme("space.24") },
-          ".w-3xl": { width: theme("space.28") },
-
-          ".h-xs": { height: theme("space.12") },
-          ".h-sm": { height: theme("space.14") },
-          ".h-md": { height: theme("space.16") },
-          ".h-lg": { height: theme("space.18") },
-          ".h-xl": { height: theme("space.20") },
-          ".h-2xl": { height: theme("space.24") },
-          ".h-3xl": { height: theme("space.28") },
-
-          ".size-xs": {
-            width: "16px",
-            height: "16px",
-          },
-          ".size-sm": {
-            width: "20px",
-            height: "20px",
-          },
-          ".size-md": {
-            width: "40px",
-            height: "40px",
-          },
-          ".size-lg": {
-            width: "60px",
-            height: "60px",
-          },
-          ".size-xl": {
-            width: "80px",
-            height: "80px",
-          },
-          ".size-2xl": {
-            width: "100px",
-            height: "100px",
-          },
-          ".size-3xl": {
-            width: "120px",
-            height: "120px",
-          },
+      addUtilities({
+        ".size-xs": {
+          width: "20px",
+          height: "20px",
         },
-        ["responsive", "dark", "hover"]
-      );
+        ".size-sm": {
+          width: "30px",
+          height: "30px",
+        },
+        ".size-md": {
+          width: "40px",
+          height: "40px",
+        },
+        ".size-lg": {
+          width: "60px",
+          height: "60px",
+        },
+        ".size-xl": {
+          width: "80px",
+          height: "80px",
+        },
+        ".size-2xl": {
+          width: "100px",
+          height: "100px",
+        },
+        ".size-3xl": {
+          width: "120px",
+          height: "120px",
+        },
+      });
       addComponents({
         // ".paper": {
         //   backgroundColor: theme("colors.paper.dark"),

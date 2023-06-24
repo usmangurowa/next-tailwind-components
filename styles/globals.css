@@ -33,6 +33,10 @@ a {
   svg {
     @apply fill-current text-inherit;
   }
+
+  .without-ring {
+    @apply focus:ring-0 focus:ring-offset-0 focus:ring-transparent;
+  }
 }
 
 /* @media (prefers-color-scheme: dark) {

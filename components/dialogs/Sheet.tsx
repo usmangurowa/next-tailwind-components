@@ -8,6 +8,9 @@ interface SheetProps extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean;
   onClose?: () => void;
   position?: "left" | "right" | "top" | "bottom";
+  transparent?: boolean;
+  blurred?: boolean;
+  opacity?: number;
 }
 
 interface SheetContentProps extends Omit<SheetProps, "open"> {
@@ -15,11 +18,20 @@ interface SheetContentProps extends Omit<SheetProps, "open"> {
   withCloseButton?: boolean;
 }
 
-const Sheet = ({ onClose, open, children, position = "left" }: SheetProps) => {
+const Sheet = ({
+  onClose,
+  open,
+  children,
+  position = "left",
+  blurred,
+  opacity,
+  transparent,
+}: SheetProps) => {
   const classes = clx(
-    "fixed z-50 h-screen w-screen flex flex-col  backdrop-blur-sm transition-all ease-in-out duration-300 w-full overflow-hidden !m-0 ",
+    "fixed z-50 h-screen w-full flex flex-col transition-all ease-in-out duration-500 overflow-hidden !m-0 ",
     {
-      "left-0 top-0": open && position === "left",
+      "top-0 ": position === "left" || position === "right",
+      "left-0 ": open && position === "left",
       "-left-[100%]": !open && position === "left",
       "right-0": open && position === "right",
       "-right-[100%]": !open && position === "right",
@@ -27,6 +39,9 @@ const Sheet = ({ onClose, open, children, position = "left" }: SheetProps) => {
       "-top-[100%]": !open && position === "top",
       "bottom-0": open && position === "bottom",
       "-bottom-[100%]": !open && position === "bottom",
+      "bg-transparent": transparent,
+      "bg-black bg-opacity-20": transparent && !blurred && open,
+      "backdrop-blur-sm": blurred,
     }
   );
 

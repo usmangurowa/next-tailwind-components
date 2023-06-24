@@ -62,7 +62,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       },
       `transition-all duration-150 ease-in-out 
      flex items-center justify-center gap-2
-    whitespace-nowrap truncate text-ellipsis relative
+    whitespace-nowrap truncate text-ellipsis relative w-fit h-fit
     `,
       className
     );

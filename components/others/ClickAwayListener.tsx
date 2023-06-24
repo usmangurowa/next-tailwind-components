@@ -1,26 +1,24 @@
 import React from "react";
 
 interface ClickAwayListenerProps {
-  onClickAway: () => void;
+  onClickAway?: () => void;
   children: React.ReactNode;
-  containerRef: any;
   className?: string;
 }
 
 const ClickAwayListener = ({
   onClickAway,
   children,
-  containerRef,
   className,
 }: ClickAwayListenerProps) => {
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = React.useRef<any>(null);
 
   React.useEffect(() => {
     const handleDocumentClick = (event: MouseEvent) => {
       const { target } = event;
-      const containerNode = containerRef.current || ref.current;
+      const containerNode = ref.current;
       if (containerNode && !containerNode.contains(target)) {
-        onClickAway();
+        onClickAway && onClickAway();
       }
     };
     document.addEventListener("click", handleDocumentClick);
@@ -28,11 +26,9 @@ const ClickAwayListener = ({
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, [onClickAway]);
+  }, [onClickAway, ref]);
 
-  return containerRef.current ? (
-    <>{children}</>
-  ) : (
+  return (
     <div className={className} ref={ref}>
       {children}
     </div>

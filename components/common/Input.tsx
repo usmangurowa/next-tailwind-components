@@ -1,25 +1,83 @@
 import React from "react";
 
 import { clx } from "@/lib/utils";
-import { roundness } from "@/lib/constants";
+import { roundness, padding_sizes as input_sizes } from "@/lib/constants";
+
+import { clf, clsx, twMerge } from "class-flex";
+
+type InputClassProps = {
+  inputSize?: keyof typeof input_sizes;
+  mode?: "contained" | "outlined" | "underlined";
+  rounded?: keyof typeof roundness;
+  error?: boolean;
+  underlined?: boolean;
+  variant?: "primary" | "secondary" | "tertiary";
+  disabled?: boolean;
+  full?: boolean;
+};
 
 interface InputProps
   extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+      React.InputHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+    >,
+    InputClassProps {
   loading?: boolean;
-  variant?: "primary" | "secondary" | "tertiary";
-  size?: "sm" | "md" | "lg" | any;
-  mode?: "outline" | "solid" | "text";
-  rounded?: keyof typeof roundness;
   label?: string | React.ReactNode;
   left?: React.ReactNode;
   right?: React.ReactNode;
   helperText?: string;
-  error?: boolean;
-  containerClassName?: string;
+  classNames?: {
+    container?: string;
+    input?: string;
+    label?: string;
+    left?: string;
+    right?: string;
+    helperText?: string;
+  };
 }
+
+const input = clf(
+  "transition-all duration-150 ease-in-out outline-none placeholder:text-gray-600 without-ring",
+  ({ rounded, inputSize }: InputClassProps) => ({
+    variants: {
+      variant: {
+        primary: {
+          contained:
+            "bg-gray-50 dark:bg-gray-900 border-none focus:border-transparent",
+          outlined:
+            "bg-transparent border-primary dark:border-primary-400 border-2",
+          underlined:
+            "border-b-primary bg-gray-50 dark:bg-gray-900 focus:border-b-primary dark:border-primary-400 border-2 dark:focus:border-primary-400 !rounded-b-none  border-t-0 border-l-0 border-r-0",
+        },
+        secondary: {
+          contained: "bg-gray-50 dark:bg-gray-900 border-gray-100",
+          outlined:
+            " bg-transparent border-secondary dark:border-secondary-400 border-2 focus:border-secondary dark:focus:border-secondary-400",
+          underlined:
+            "border-b-secondary bg-gray-50 dark:bg-gray-900 dark:border-secondary-400 focus:border-b-secondary dark:focus:border-secondary-400 border-2 !rounded-b-none  border-t-0 border-l-0 border-r-0",
+        },
+      },
+      inputSize: {
+        [inputSize as string]:
+          input_sizes[inputSize as keyof typeof input_sizes],
+      },
+      disabled: {
+        true: "bg-opacity-50",
+        // false: "active:scale-[.999]",
+      },
+      error: {
+        true: "border-red dark:border-red-400 border-2",
+      },
+      rounded: {
+        [rounded as string]: roundness[rounded as keyof typeof roundness],
+      },
+      full: {
+        true: "w-full",
+      },
+    },
+  })
+);
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -27,43 +85,56 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       children,
       className,
       size = "md",
-      mode = "solid",
-      variant,
+      mode = "contained",
+      variant = "primary",
       rounded = "md",
-      disabled,
+      disabled = false,
       label,
+      classNames,
+      full,
+      inputSize,
+      style,
+      error = false,
       ...props
     },
     ref
   ) => {
-    const classes = clx(
-      {
-        [roundness[rounded]]: true,
-        "px-3 py-2 text-sm": size === "sm",
-        "px-4 py-3 text-base": size === "md",
-        "px-6 py-4 text-lg": size === "lg",
-        "active:scale-[.99]": !disabled,
-        "opacity-50": disabled,
-        "bg-gray-50 dark:bg-gray-900 border-gray-200": mode === "solid",
-        "bg-transparent border-primary dark:border-primary-400 border-2":
-          mode === "outline",
-      },
-      "transition-all duration-150 ease-in-out outline-none placeholder:text-gray-600",
-      className
+    const classes = React.useMemo(
+      () => ({
+        input: input({
+          disabled,
+          rounded,
+          inputSize,
+          mode,
+          variant: {
+            [variant]: mode,
+          },
+          error,
+          className: classNames?.input,
+        }),
+        label: clx(
+          "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
+          classNames?.label,
+          {
+            "text-danger": error,
+          }
+        ),
+        helperText: clx(classNames?.helperText),
+        container: clx(
+          "flex flex-col w-fit space-y-1 bg-transparent",
+          {
+            "w-full": full,
+          },
+          classNames?.container
+        ),
+      }),
+      []
     );
-
-    const labelClasses = clx(
-      "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1"
-    );
-
-    const helperTextClasses = clx();
-
-    const containerClasses = clx("flex flex-col w-fit space-y-1");
 
     return (
-      <div className={containerClasses}>
-        {label && <label className={labelClasses}>{label}</label>}
-        <input ref={ref} className={classes} {...props} />
+      <div className={classes.container}>
+        {label && <label className={classes.label}>{label}</label>}
+        <input ref={ref} className={classes.input} {...props} />
       </div>
     );
   }

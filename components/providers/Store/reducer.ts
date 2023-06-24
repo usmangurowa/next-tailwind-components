@@ -1,7 +1,15 @@
-enum Actions {
+export enum Actions {
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
+  INITIALIZE = "INITIALIZE",
 }
+
+const persistAndDispatch = (state: InitialStateProps): InitialStateProps => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("app-state", JSON.stringify(state));
+  }
+  return state;
+};
 
 const reducer = (
   state: InitialStateProps,
@@ -9,10 +17,18 @@ const reducer = (
 ): InitialStateProps => {
   switch (action.type) {
     case Actions.LOGIN:
-      return { ...state, is_logged_in: true };
+      return persistAndDispatch({ ...state, is_logged_in: true });
       break;
     case Actions.LOGOUT:
-      return { ...state, is_logged_in: false };
+      return persistAndDispatch({ ...state, is_logged_in: false });
+      break;
+    case Actions.INITIALIZE:
+      if (typeof window !== "undefined") {
+        return JSON.parse(
+          localStorage.getItem("app-state") || JSON.stringify(state)
+        );
+      }
+      return { ...state };
       break;
     default:
       return state;

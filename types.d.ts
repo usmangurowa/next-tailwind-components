@@ -28,4 +28,5 @@ type ContextHook = () => {
 enum Actions {
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
+  INITIALIZE = "INITIALIZE",
 }

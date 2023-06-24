@@ -17,5 +17,10 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const value = React.useMemo(() => ({ state, dispatch }), [state]);
+
+  React.useEffect(() => {
+    dispatch({ type: "INITIALIZE" });
+  }, []);
+
   return <Store.Provider value={value}>{children}</Store.Provider>;
 };
