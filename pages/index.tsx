@@ -101,15 +101,7 @@ const Index = () => {
         <IconButton mode="text">
           <Cross1Icon color="#fff" />
         </IconButton>
-        <Input size="sm" type="text" placeholder="Enter your name" />
-        <Input size="md" type="text" placeholder="Enter your name" />
-        <Input size="lg" type="text" placeholder="Enter your name" />
-        <Input
-          size="sm"
-          type="text"
-          placeholder="Enter your name"
-          mode="outline"
-        />
+
         <div className="container grid w-full grid-cols-1 gap-10 my-10 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4">
           <div className="relative w-full p-5 paper h-fit rounded-2xl dark:bg-gray-900">
             <h1 className="text-2xl">Lorem ipsum dolor sit amet.</h1>

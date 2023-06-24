@@ -1,9 +1,7 @@
 import React from "react";
-import { clx, pseudoClx } from "@/lib/utils";
 import { roundness, padding_sizes } from "@/lib/constants";
 import ClickAwayListener from "../others/ClickAwayListener";
-import FocusTrap from "focus-trap-react";
-import { CheckCircledIcon, ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 import IconButton from "./IconButton";
 import { clf, clsx } from "class-flex";
 
@@ -159,18 +157,18 @@ const Select = ({
           hidden: focused,
         }
       ),
-      menu: clx(
+      menu: clsx(
         "space-y-1 rounded-md overflow-x-hidden overflow-y-auto mt-2 absolute left-0 top-[100%] w-full max-h-0 paper transition-all ease-in-out duration-100 z-50",
         {
           "max-h-40 p-2": focused,
         },
         classNames?.menu
       ),
-      option: clx(
+      option: clsx(
         "p-2 cursor-pointer dark:hover:bg-dark hover:bg-gray-50 rounded flex items-center gap-x-2",
         classNames?.options
       ),
-      label: clx(
+      label: clsx(
         "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
         classNames?.label
       ),
@@ -188,6 +186,7 @@ const Select = ({
       full,
       variant,
       mode,
+      generateClass,
     ]
   );
 
@@ -245,7 +244,7 @@ const Select = ({
         onClick={() => handleChange(opt)}
         className={
           classes.option +
-          ` ${
+          `${
             (
               multiple
                 ? (selected as OptionType[])?.includes(opt)
@@ -260,7 +259,7 @@ const Select = ({
         {opt.label}
       </li>
     ));
-  }, [lists, selected, classes.option, renderOption]);
+  }, [lists, selected, classes.option, renderOption, handleChange]);
 
   return (
     <ClickAwayListener className={classes.container} onClickAway={handleClose}>
@@ -284,7 +283,7 @@ const Select = ({
           size={inputSize}
         >
           <ChevronDownIcon
-            className={clx("w-5 h-7 transition-all ease-in-out duration-75", {
+            className={clsx("w-5 h-7 transition-all ease-in-out duration-75", {
               "rotate-180": focused,
             })}
           />
@@ -294,7 +293,7 @@ const Select = ({
         {renderList}
         {inputValue && !lists?.length ? (
           <li className="p-2 text-center">
-            No options found for "{inputValue}"
+            {`No options found for "${inputValue}"`}
           </li>
         ) : null}
       </ul>
