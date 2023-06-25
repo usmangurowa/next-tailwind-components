@@ -150,6 +150,7 @@ const Selects = () => {
         placeholder="Choose your favorite flavor"
         options={options}
         inputSize={"lg"}
+        helperText="This is a helper text"
       />
       <Select
         full
@@ -167,6 +168,8 @@ const Selects = () => {
         multiple
         inputSize={"sm"}
         mode="underlined"
+        helperText="Favorite flavors"
+        error
       />
       <Select
         full

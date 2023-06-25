@@ -13,6 +13,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        warning: "#F59E0B",
+        success: "#10B981",
+        danger: "#DC2626",
+        info: "#3B82F6",
+
         "gray-50": "#f7f7f7", // light mode background
         "gray-100": "#e3e3e3", // dark mode text
         "gray-200": "#c8c8c8",

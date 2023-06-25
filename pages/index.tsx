@@ -12,6 +12,7 @@ import Modal from "@/components/dialogs/Modal";
 import Tab from "@/components/navigators/Tab";
 import { useRouter } from "next/router";
 import Overlay from "@/components/dialogs/Overlay";
+import BottomNav from "@/components/navigators/BottomNav";
 
 const data = [1, 2, 3, 4, 5, 6, 7];
 

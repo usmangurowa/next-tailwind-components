@@ -17,7 +17,7 @@ interface SelectProps
   left?: React.ReactNode;
   right?: React.ReactNode;
   helperText?: string;
-  error?: boolean;
+
   multiple?: boolean;
   options: OptionType[];
   closeOnSelect?: boolean;
@@ -42,6 +42,7 @@ interface SelectClassProps {
   mode?: "outlined" | "contained" | "underlined";
   rounded?: keyof typeof roundness;
   active?: boolean;
+  error?: boolean;
 }
 
 const select = clf(
@@ -50,6 +51,9 @@ const select = clf(
     variants: {
       inputSize: {
         [inputSize]: padding_sizes[inputSize as keyof typeof padding_sizes],
+      },
+      error: {
+        true: "text-danger",
       },
     },
   })
@@ -97,6 +101,8 @@ const Select = ({
   full,
   mode = "contained",
   variant = "primary",
+  helperText,
+  error,
   ...props
 }: SelectProps) => {
   const [focused, setFocused] = React.useState(false);
@@ -129,7 +135,7 @@ const Select = ({
       select({
         inputSize,
       }),
-    [variant, mode, full, inputSize, rounded]
+    [variant, mode, full, inputSize, rounded, error]
   );
 
   const classes = React.useMemo(
@@ -158,9 +164,11 @@ const Select = ({
         }
       ),
       menu: clsx(
-        "space-y-1 rounded-md overflow-x-hidden overflow-y-auto mt-2 absolute left-0 top-[100%] w-full max-h-0 paper transition-all ease-in-out duration-100 z-50",
+        "space-y-1 rounded-md overflow-x-hidden overflow-y-auto  absolute left-0 top-[100%] w-full max-h-0 paper transition-all ease-in-out duration-100 z-50",
         {
           "max-h-40 p-2": focused,
+          "mt-1": !helperText,
+          "-mt-5": !!helperText,
         },
         classNames?.menu
       ),
@@ -170,7 +178,12 @@ const Select = ({
       ),
       label: clsx(
         "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
+        { hidden: !label, "text-danger": error },
         classNames?.label
+      ),
+      helperText: clsx(
+        "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
+        { hidden: !helperText, "text-danger": error }
       ),
     }),
     [
@@ -187,6 +200,7 @@ const Select = ({
       variant,
       mode,
       generateClass,
+      error,
     ]
   );
 
@@ -282,6 +296,7 @@ const Select = ({
           />
         </IconButton>
       </div>
+      <span className={classes.helperText}>{helperText}</span>
       <ul aria-label="menu" className={classes.menu}>
         {renderList}
         {inputValue && !lists?.length ? (
