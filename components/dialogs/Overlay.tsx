@@ -1,64 +1,93 @@
 import React from "react";
-import { clx } from "@/lib/utils";
 import FocusTrap from "focus-trap-react";
+import { clf, clsx } from "class-flex";
+import { useEvent } from "react-use";
 
-interface OverlayProps extends React.HTMLAttributes<HTMLDivElement> {
-  open: boolean;
-  onClose?: () => void;
-  position?: "left" | "right" | "top" | "bottom";
-  transparent?: boolean;
-}
-
-interface OverlayContentProps extends Omit<OverlayProps, "open"> {
+interface OverlayClassProps {
   open?: boolean;
-  withCloseButton?: boolean;
+  transparent?: boolean;
+  blurred?: boolean;
+  position?: "left" | "right" | "top" | "bottom";
 }
+
+interface OverlayProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    OverlayClassProps {
+  onClose?: () => void;
+}
+
+interface OverlayContentProps extends Omit<OverlayProps, "open"> {}
+
+const overlay = clf(
+  "fixed z-50 h-screen w-full flex flex-col transition-all ease-in-out duration-500 overflow-hidden !m-0",
+  {
+    variants: {
+      open: {
+        true: {
+          left: "top-0 left-0",
+          right: "top-0 right-0",
+          top: "top-0",
+          bottom: "bottom-0 ",
+        },
+        false: {
+          left: "top-0 -left-full",
+          right: "top-0 -right-full",
+          top: "-top-full",
+          bottom: "-bottom-full",
+        },
+      },
+      transparent: {
+        true: "bg-transparent",
+      },
+      opacity: {
+        0: "opacity-0",
+        1: "opacity-10",
+        2: "opacity-20",
+        3: "opacity-30",
+        4: "opacity-40",
+        5: "opacity-50",
+        6: "opacity-60",
+        7: "opacity-70",
+        8: "opacity-80",
+        9: "opacity-90",
+        10: "opacity-100",
+      },
+      blurred: {
+        true: "backdrop-blur-sm",
+      },
+    },
+  }
+);
 
 const Overlay = ({
   onClose,
-  open,
+  open = false,
   children,
   position = "left",
   transparent = false,
+  className,
 }: OverlayProps) => {
-  const classes = clx(
-    "fixed flex items-center justify-center z-50 h-screen w-screen flex flex-col  backdrop-blur-sm transition-all ease-in-out duration-300 w-full overflow-hidden !m-0 ",
-    {
-      "left-0 top-0": open && position === "left",
-      "-left-[100%]": !open && position === "left",
-      "right-0": open && position === "right",
-      "-right-[100%]": !open && position === "right",
-      "top-0": open && position === "top",
-      "-top-[100%]": !open && position === "top",
-      "bottom-0": open && position === "bottom",
-      "-bottom-[100%]": !open && position === "bottom",
-    }
+  const classes = React.useMemo(
+    () =>
+      overlay({
+        open: {
+          [`${open}`]: position,
+        },
+        className,
+        transparent,
+      }),
+    [open, transparent, position]
   );
 
-  React.useEffect(() => {
-    const onEscaped = (e: KeyboardEvent) => {
-      if (e.keyCode === 27) {
-        onClose && onClose();
-      }
-    };
-
-    document.addEventListener("keydown", onEscaped);
-
-    return () => {
-      document.removeEventListener("keydown", onEscaped);
-    };
-  }, [onClose]);
+  useEvent("keydown", (e) => {
+    if (e.key === "Escape" || e.keyCode == 27) {
+      onClose && onClose();
+    }
+  });
 
   return (
     <FocusTrap active={open}>
       <div className={classes}>
-        {/* {React.Children.map(children, (child) => {
-          return React.cloneElement(child as React.ReactElement<any>, {
-            open,
-            position,
-            onClose,
-          });
-        })} */}
         {children}
         <div
           className="absolute top-0 left-0 w-full h-full "
@@ -74,29 +103,13 @@ export default Overlay;
 const OverlayContent = ({
   children,
   className,
-  open,
-  position = "left",
-  withCloseButton = true,
-  onClose,
   ...props
 }: OverlayContentProps) => {
-  const classes = clx("paper z-[999] relative !m-0", className);
-  // const classes = clx(
-  //   "paper shadow-none z-[999] relative !m-0",
-  //   {
-  //     "ml-auto": position === "right",
-  //     "mr-auto": position === "left",
-  //     "mt-auto": position === "bottom",
-  //     "mb-auto": position === "top",
-  //     "h-full laptop:w-1/4 tablet:w-1/2 w-4/5":
-  //       position === "left" || position === "right",
-  //     "h-1/2 w-full": position === "top" || position === "bottom",
-  //   },
-  //   className
-  // );
-
+  const classes = React.useMemo(
+    () => clsx("paper z-[999] relative !m-0", className),
+    [className]
+  );
   return (
-    // <div className={classes} {...props}>
     <div className={classes} {...props}>
       {children}
     </div>

@@ -14,7 +14,7 @@ interface VariantProps {
   full?: boolean;
   disabled?: boolean;
 }
-interface ButtonProps
+export interface ButtonProps
   extends React.DetailedHTMLProps<
       React.ButtonHTMLAttributes<HTMLButtonElement>,
       HTMLButtonElement
@@ -98,6 +98,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           full,
           loading,
           disabled,
+          className,
         }),
       [className, size, mode, rounded, loading, full, disabled, variant]
     );

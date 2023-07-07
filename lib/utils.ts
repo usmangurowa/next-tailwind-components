@@ -1,6 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import classNames from "classnames";
 import { cva as CVA, VariantProps, CxOptions } from "cva";
+import { GetServerSidePropsContext } from "next";
+import axios from "../apis";
 export const clx = (...classes: classNames.ArgumentArray) =>
   twMerge(classNames(classes));
 
@@ -58,4 +60,29 @@ export const pseudoClx = (value: object) => {
 //       return classes.split(" ").map((cls: string) => `${key}:${cls}`);
 //     })
 //     .join(" ");
-// };
+// // };
+
+export const getServerProps: any = async (
+  context: GetServerSidePropsContext,
+  endpoint: string
+) => {
+  try {
+    const { data, status } = await axios.get(endpoint);
+    if (status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+    return {
+      props: {
+        fallback: {
+          [endpoint]: data || [],
+        },
+      },
+    };
+  } catch (error) {
+    return {
+      props: {},
+    };
+  }
+};

@@ -27,7 +27,6 @@ module.exports = {
         "gray-600": "#515151",
         "gray-700": "#434343",
         "gray-800": "#383838",
-        // "gray-900": "#313131", // light mode text
         "gray-900": "#1E1E1E", // light mode text
         "gray-950": "#121212", // dark mode background
 
@@ -84,6 +83,7 @@ module.exports = {
         paper: {
           DEFAULT: "#fff",
           dark: "#1E1E1E",
+          mid: "#333",
         },
       },
     },
@@ -124,6 +124,7 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/typography"),
+    require("tailwindcss-animate"),
     require("@tailwindcss/forms"),
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
       addUtilities({

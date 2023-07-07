@@ -3,11 +3,16 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import userServerSWR from "@/lib/hooks/use-server-swr";
 import Skeleton from "@/components/common/Skeleton";
+import useServerSWR from "@/lib/hooks/use-server-swr";
+import { getServerProps } from "@/lib/utils";
+import { GetServerSideProps } from "next";
+
+const API = "https://jsonplaceholder.typicode.com/posts/";
 
 const Blog = () => {
   const router = useRouter();
-  const { data, error, isLoading, isValidating, mutate } = useSWR(
-    `https://jsonplaceholder.typicode.com/posts/${router.query.id}`
+  const { data, error, isLoading, isValidating, mutate } = useServerSWR(
+    `${API}${router?.query?.id}`
   );
 
   return (
@@ -24,3 +29,7 @@ const Blog = () => {
 };
 
 export default Blog;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return await getServerProps(context, `${API}${context?.query?.id}`);
+};

@@ -1,19 +1,9 @@
 import React from "react";
-import {
-  AvatarFallback,
-  AvatarImage,
-  // Root,
-  // Image,
-  // Fallback,
-  AvatarImageProps,
-  AvatarFallbackProps,
-  AvatarProps as AvatarProps_,
-} from "@radix-ui/react-avatar";
-import { clx } from "@/lib/utils";
+
 import { roundness, sizes } from "@/lib/constants";
 
-import { clf } from "@/lib/clf";
 import Image, { ImageProps } from "next/image";
+import { clf, clsx } from "class-flex";
 
 interface AvatarProps extends Omit<ImageProps, "src"> {
   fallback?: React.ReactNode;
@@ -74,9 +64,9 @@ const Avatar = ({
   classNames,
 }: AvatarProps) => {
   const classes = {
-    root: clx(root({ size, rounded }), classNames?.root),
-    image: clx("w-full h-full object-cover", classNames?.image),
-    fallback: clx(fallbackClass({ size }), classNames?.fallback),
+    root: clsx(root({ size, rounded }), classNames?.root),
+    image: clsx("w-full h-full object-cover", classNames?.image),
+    fallback: clsx(fallbackClass({ size }), classNames?.fallback),
   };
   return (
     <div className={classes.root}>

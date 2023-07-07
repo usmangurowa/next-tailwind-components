@@ -8,9 +8,10 @@ export default function App({
   Component,
   pageProps,
   fallback,
-}: AppProps & { fallback?: any }) {
+  session,
+}: AppProps & { fallback?: any; session?: any }) {
   return (
-    <Providers fallback={fallback}>
+    <Providers fallback={fallback} session={session}>
       <Nav />
       <Component {...pageProps} />
       <BottomNav />

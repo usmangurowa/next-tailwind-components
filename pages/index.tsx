@@ -95,8 +95,17 @@ const Index = () => {
         >
           Switch Theme
         </Button>
-        <Skeleton avatar size={10} className="w-10 h-10" />
-        <IconButton loading mode="outline" onClick={switchTeam}>
+        <div className="grid grid-cols-1 gap-5 tablet:grid-cols-2 laptop:grid-cols-4">
+          {[...Array(30)].map((_, i) => (
+            <div className="grid items-center w-full grid-cols-4" key={_}>
+              <Skeleton avatar size="sm" className="row-span-2" />
+              <Skeleton fullW text className="col-span-3" />
+              <Skeleton text fullW className="col-span-3" />
+              <Skeleton text fullW h="200px" className="col-span-4 my-2" />
+            </div>
+          ))}
+        </div>
+        <IconButton loading mode="outlined" onClick={switchTeam}>
           {theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
         </IconButton>
         <IconButton mode="text">
@@ -135,4 +144,3 @@ const Index = () => {
 };
 
 export default Index;
-// [&>*]:invisible

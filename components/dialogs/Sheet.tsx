@@ -1,16 +1,20 @@
 import React from "react";
 import IconButton from "../common/IconButton";
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { clx } from "@/lib/utils";
 import FocusTrap from "focus-trap-react";
+import { clf } from "class-flex";
 
-interface SheetProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SheetClassProps {
   open: boolean;
-  onClose?: () => void;
   position?: "left" | "right" | "top" | "bottom";
   transparent?: boolean;
   blurred?: boolean;
   opacity?: number;
+}
+interface SheetProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    SheetClassProps {
+  onClose?: () => void;
 }
 
 interface SheetContentProps extends Omit<SheetProps, "open"> {
@@ -18,31 +22,96 @@ interface SheetContentProps extends Omit<SheetProps, "open"> {
   withCloseButton?: boolean;
 }
 
+const sheet = {
+  container: clf(
+    "fixed z-50 h-screen w-full flex flex-col transition-all ease-in-out duration-500 overflow-hidden !m-0",
+    {
+      variants: {
+        open: {
+          true: {
+            left: "top-0 left-0",
+            right: "top-0 right-0",
+            top: "top-0",
+            bottom: "bottom-0 ",
+          },
+          false: {
+            left: "top-0 -left-full",
+            right: "top-0 -right-full",
+            top: "-top-full",
+            bottom: "-bottom-full",
+          },
+        },
+        transparent: {
+          true: "bg-transparent",
+        },
+        opacity: {
+          0: "opacity-0",
+          1: "opacity-10",
+          2: "opacity-20",
+          3: "opacity-30",
+          4: "opacity-40",
+          5: "opacity-50",
+          6: "opacity-60",
+          7: "opacity-70",
+          8: "opacity-80",
+          9: "opacity-90",
+          10: "opacity-100",
+        },
+        blurred: {
+          true: "backdrop-blur-sm",
+        },
+      },
+    }
+  ),
+  content: clf("paper shadow-none z-[999] relative !m-0", {
+    variants: {
+      position: {
+        left: "mr-auto h-full laptop:w-1/4 tablet:w-1/2 w-4/5",
+        right: "ml-auto h-full laptop:w-1/4 tablet:w-1/2 w-4/5",
+        top: "mb-auto h-1/2 w-full",
+        bottom: "mt-auto h-1/2 w-full",
+      },
+    },
+  }),
+};
+
+const closeIcon = clf("absolute m-2", {
+  variants: {
+    position: {
+      left: "top-0 right-0",
+      right: "top-0 left-0",
+      top: "bottom-0 left-0",
+      bottom: "top-0 right-0",
+    },
+    withCloseButton: {
+      true: "block",
+      false: "hidden",
+    },
+  },
+});
+
 const Sheet = ({
   onClose,
-  open,
+  open = false,
   children,
   position = "left",
   blurred,
   opacity,
   transparent,
+  className,
 }: SheetProps) => {
-  const classes = clx(
-    "fixed z-50 h-screen w-full flex flex-col transition-all ease-in-out duration-500 overflow-hidden !m-0 ",
-    {
-      "top-0 ": position === "left" || position === "right",
-      "left-0 ": open && position === "left",
-      "-left-[100%]": !open && position === "left",
-      "right-0": open && position === "right",
-      "-right-[100%]": !open && position === "right",
-      "top-0": open && position === "top",
-      "-top-[100%]": !open && position === "top",
-      "bottom-0": open && position === "bottom",
-      "-bottom-[100%]": !open && position === "bottom",
-      "bg-transparent": transparent,
-      "bg-black bg-opacity-20": transparent && !blurred && open,
-      "backdrop-blur-sm": blurred,
-    }
+  const classes = React.useMemo(
+    () =>
+      sheet.container({
+        blurred,
+        opacity,
+        open: {
+          [`${open}`]: position,
+        },
+        transparent,
+        className,
+      }),
+    [open, position, blurred, opacity, transparent, className]
   );
 
   React.useEffect(() => {
@@ -89,26 +158,15 @@ const SheetContent = ({
   onClose,
   ...props
 }: SheetContentProps) => {
-  const classes = clx(
-    "paper shadow-none z-[999] relative !m-0",
-    {
-      "ml-auto": position === "right",
-      "mr-auto": position === "left",
-      "mt-auto": position === "bottom",
-      "mb-auto": position === "top",
-      "h-full laptop:w-1/4 tablet:w-1/2 w-4/5":
-        position === "left" || position === "right",
-      "h-1/2 w-full": position === "top" || position === "bottom",
-    },
-    className
+  const classes = React.useMemo(
+    () => sheet.content({ position, className }),
+    [position, className]
   );
 
-  const closeButtonClasses = clx("absolute m-2", {
-    hidden: !withCloseButton,
-    "top-0 right-0": position === "left" || position === "bottom",
-    "top-0 left-0": position === "right",
-    "bottom-0 left-0": position === "top",
-  });
+  const closeButtonClasses = React.useMemo(
+    () => closeIcon({ position, withCloseButton }),
+    [position, withCloseButton]
+  );
 
   return (
     <div className={classes} {...props}>

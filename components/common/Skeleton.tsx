@@ -1,50 +1,79 @@
+import { roundness, sizes } from "@/lib/constants";
 import { clx } from "@/lib/utils";
+import { clf } from "class-flex";
 
 import React from "react";
 
-const roundness = {
-  none: "rounded-none",
-  rounded: "rounded",
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-  "2xl": "rounded-2xl",
-  "3xl": "rounded-3xl",
-  full: "rounded-full",
-};
-
-export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-  w?: string;
-  h?: string;
-  size?: number;
+interface SkeletonClassProps {
+  size?: keyof typeof sizes;
   rounded?: keyof typeof roundness;
   avatar?: boolean;
   text?: boolean;
+  full?: boolean;
+  fullW?: boolean;
 }
+
+export interface SkeletonProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    SkeletonClassProps {
+  w?: string;
+  h?: string;
+}
+
+const skeleton = clf(
+  "animate-pulse overflow-hidden",
+  ({ rounded, size }: SkeletonClassProps) => ({
+    variants: {
+      rounded: {
+        [rounded as string]: roundness[rounded as keyof typeof roundness],
+      },
+      size: {
+        [size as string]: sizes[size as keyof typeof sizes],
+      },
+      avatar: {
+        true: "rounded-full",
+      },
+      text: {
+        true: "rounded-md w-20 h-4",
+      },
+      full: {
+        true: "w-full h-full",
+      },
+      fullW: {
+        true: "w-full",
+      },
+    },
+  })
+);
 
 const Skeleton = ({
   className,
-  size,
-  rounded,
+  size = "md",
+  rounded = "md",
   avatar,
   text,
+  w,
+  h,
+  full,
+  fullW,
+  style,
   ...props
 }: SkeletonProps) => {
-  const sizeClass = size ? `w-[${size}px] h-[${size}px]` : "w-40 h-40";
-  const classes = clx(
-    "animate-pulse overflow-hidden",
-    {
-      [roundness[rounded || "md"]]: true,
-      [sizeClass]: true,
-      "rounded-full": avatar,
-      "rounded-md w-20 h-4": text,
-    },
-    className
+  const classes = React.useMemo(
+    () => skeleton({ avatar, className, rounded, size, text, fullW, full }),
+    [rounded, size, avatar, text, fullW, full, className]
   );
   return (
-    <div className={classes} {...props}>
-      <div className="w-full h-full bg-paper-dark" />
+    <div
+      className={classes}
+      style={{
+        ...(w && { width: w }),
+        ...(h && { height: h }),
+        ...style,
+      }}
+      {...props}
+    >
+      <div className="w-full h-full bg-gray-200 dark:bg-paper-dark" />
     </div>
   );
 };

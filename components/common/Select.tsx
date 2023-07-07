@@ -7,7 +7,7 @@ import { clf, clsx } from "class-flex";
 
 type OptionType = { label: string; value: string };
 
-interface SelectProps
+export interface SelectProps
   extends React.DetailedHTMLProps<
       React.InputHTMLAttributes<HTMLInputElement>,
       HTMLInputElement
@@ -164,7 +164,7 @@ const Select = ({
         }
       ),
       menu: clsx(
-        "space-y-1 rounded-md overflow-x-hidden overflow-y-auto  absolute left-0 top-[100%] w-full max-h-0 paper transition-all ease-in-out duration-100 z-50",
+        "space-y-1 rounded-md overflow-x-hidden overflow-y-auto  absolute left-0 top-full w-full max-h-0 paper transition-all ease-in-out duration-100 z-50",
         {
           "max-h-40 p-2": focused,
           "mt-1": !helperText,

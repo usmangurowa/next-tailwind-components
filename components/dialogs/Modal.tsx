@@ -1,22 +1,70 @@
 import React from "react";
 import IconButton from "../common/IconButton";
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { clx } from "@/lib/utils";
 import FocusTrap from "focus-trap-react";
+import { clf, clsx } from "class-flex";
+import { useEvent } from "react-use";
 
 interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean;
   onClose?: () => void;
   position?: "left" | "right" | "top" | "bottom" | "center";
-
   responsive?: boolean;
   transparent?: boolean;
+  blurred?: boolean;
 }
 
 interface ModalContentProps extends Omit<ModalProps, "open"> {
   open?: boolean;
   withCloseButton?: boolean;
 }
+
+const modal = {
+  container: clf(
+    "flex h-screen w-screen fixed z-50 transition-all ease-in-out duration-300 overflow-hidden !m-0",
+    {
+      variants: {
+        open: {
+          true: {
+            responsive: "laptop:scale-100 opacity-100 bottom-0",
+            irresponsive:
+              "flex opacity-100 scale-100 top-0 items-center justify-center",
+          },
+          false: {
+            responsive: "laptop:bottom-0 opacity-0 laptop:scale-0 -bottom-full",
+            irresponsive: "opacity-0 scale-0 top-0",
+          },
+        },
+        responsive: {
+          true: "laptop:items-center laptop:justify-center",
+          false: "",
+        },
+        blurred: {
+          true: "backdrop-blur-sm",
+          false: "",
+        },
+        transparent: {
+          true: "bg-transparent",
+          false: "",
+        },
+      },
+      defaultVariants: {
+        open: "false",
+        responsive: "false",
+        blurred: "true",
+        transparent: "false",
+      },
+    }
+  ),
+  content: clf("paper z-[999] relative overflow-auto", {
+    variants: {
+      responsive: {
+        true: "w-full laptop:max-h-[80vh] laptop:max-w-3xl laptop:rounded-2xl rounded-t-2xl mt-auto laptop:m-0",
+        false: "max-h-[80vh] laptop:max-w-3xl w-11/12 rounded-2xl",
+      },
+    },
+  }),
+};
 
 const Modal = ({
   onClose,
@@ -25,36 +73,28 @@ const Modal = ({
   position = "center",
   responsive = false,
   transparent = false,
+  blurred = true,
+  className,
 }: ModalProps) => {
-  const classes = clx(
-    "flex h-screen w-screen fixed z-50 transition-all ease-in-out duration-300 overflow-hidden !m-0",
-    {
-      "items-center justify-center opacity-0 scale-0 top-0":
-        !responsive && position === "center",
-      "flex opacity-1  scale-1 top-0":
-        open && !responsive && position === "center",
-      "laptop:scale-1 opacity-1 bottom-0": open && responsive,
-      "laptop:bottom-0 opacity:0 laptop:scale-0 -bottom-[100%]":
-        !open && responsive,
-      "laptop:items-center laptop:justify-center": responsive,
-      "bg-transparent": transparent,
-      "backdrop-blur-sm": !transparent && open,
+  useEvent("keydown", (e) => {
+    if (e.key === "Escape" || e.keyCode == 27) {
+      onClose && onClose();
     }
+  });
+
+  const classes = React.useMemo(
+    () =>
+      modal.container({
+        blurred,
+        open: {
+          [`${open}`]: responsive ? "responsive" : "irresponsive",
+        },
+        responsive,
+        transparent,
+        className,
+      }),
+    [open, responsive, transparent, className, blurred]
   );
-
-  React.useEffect(() => {
-    const onEscaped = (e: KeyboardEvent) => {
-      if (e.keyCode === 27) {
-        onClose && onClose();
-      }
-    };
-
-    document.addEventListener("keydown", onEscaped);
-
-    return () => {
-      document.removeEventListener("keydown", onEscaped);
-    };
-  }, [onClose]);
 
   return (
     <FocusTrap active={open}>
@@ -89,25 +129,21 @@ const ModalContent = ({
   onClose,
   ...props
 }: ModalContentProps) => {
-  const classes = clx(
-    "paper z-[999] relative overflow-auto",
-    {
-      "w-full laptop:h-[80vh] laptop:w-1/2 laptop:rounded-2xl rounded-t-2xl mt-auto laptop:m-0":
+  const classes = React.useMemo(
+    () =>
+      modal.content({
         responsive,
-      "h-[80vh] laptop:w-1/2 w-4/5 rounded-2xl": !responsive,
-      "": position === "center",
-    },
-    className
+
+        className,
+      }),
+    [open, responsive, className]
   );
-
-  const closeButtonClasses = clx("absolute m-2 top-0 right-0", {
-    hidden: !withCloseButton,
-  });
-
   return (
     <div className={classes} {...props}>
       <IconButton
-        className={closeButtonClasses}
+        className={clsx("absolute m-2 top-0 right-0", {
+          hidden: !withCloseButton,
+        })}
         onClick={onClose}
         size="sm"
         mode="text"

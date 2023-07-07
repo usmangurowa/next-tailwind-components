@@ -1,28 +1,16 @@
-import Input from "@/components/common/Input";
-import Tab from "@/components/navigators/Tab";
-import { clx } from "@/lib/utils";
+import ComponentLayout from "@/components/layouts/ComponentLayout";
+import { useRouter } from "next/router";
 import React from "react";
-// import Select from "react-select";
-
+import Tab from "@/components/navigators/Tab";
 import Select from "@/components/common/Select";
+
 import Avatar from "@/components/common/Avatar";
 import Button from "@/components/common/Button";
 import IconButton from "@/components/common/IconButton";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import { Switch } from "@usmangurowa/react-switch";
-import { useRouter } from "next/router";
 import Grid from "@/components/containers/Grid";
-
-const languages = [
-  "input",
-  "select",
-  "button",
-  "avatar",
-  "tab",
-  "grid",
-  "modal",
-  "sheet",
-];
+import Input from "@/components/common/Input";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -34,59 +22,37 @@ const options = [
   { value: "caramel", label: "Caramel" },
 ];
 
-const Demo = () => {
-  const [selected, setSelected] = React.useState("");
-  // const [tab, setTab] = React.useState(languages[0]);
+const Component = () => {
   const router = useRouter();
-  const { tab = languages[0] }: any = router.query;
-  const setTab = (tab: string) => router.push(router.pathname + `?tab=${tab}`);
+  const tab = router.query.component;
   return (
-    <Tab
-      value={tab as string}
-      onValueChange={setTab}
-      orientation="vertical"
-      defaultValue={languages[0]}
-      className="grid gap-10 tablet:grid-cols-1 laptop:grid-cols-12"
-    >
-      <aside className="hidden border-r border-gray-500 laptop:flex laptop:col-span-2">
-        <Tab.Items orientation="vertical" className="w-full">
-          {languages.map((lang) => (
-            <Tab.Item
-              key={lang}
-              value={lang}
-              className="w-full px-5 py-2 text-left capitalize"
-            >
-              {lang}
-            </Tab.Item>
-          ))}
-        </Tab.Items>
-      </aside>
-      <main className="container min-h-screen laptop:col-span-10">
-        <Tab.Content value={tab} className="w-full h-full space-y-10">
-          <h1 className="py-2 text-3xl font-bold capitalize border-b">{tab}</h1>
-          <Switch case={tab}>
-            <Switch.Case case="input">
-              <Inputs />
-            </Switch.Case>
-            <Switch.Case case="button" component={<Buttons />} />
-            <Switch.Case case="avatar" component={<Avatars />} />
-            <Switch.Case case="select">
-              <Selects />
-            </Switch.Case>
-            <Switch.Case case="grid">
-              <Grids />
-            </Switch.Case>
-            <Switch.Case default>
-              <h1 className="text-2xl font-bold">Coming soon...</h1>
-            </Switch.Case>
-          </Switch>
-        </Tab.Content>
-      </main>
-    </Tab>
+    <ComponentLayout>
+      <h1 className="py-2 mb-4 text-3xl font-bold capitalize border-b">
+        {tab}
+      </h1>
+      <Tab.Content value="input">
+        <Inputs />
+      </Tab.Content>
+      <Tab.Content value="button">
+        <Buttons />
+      </Tab.Content>
+      <Tab.Content value="avatar">
+        <Avatars />
+      </Tab.Content>
+      <Tab.Content value="select">
+        <Selects />
+      </Tab.Content>
+      <Tab.Content value="grid">
+        <Grids />
+      </Tab.Content>
+      <Tab.Content value="">
+        <h1 className="text-2xl font-bold">Coming soon...</h1>
+      </Tab.Content>
+    </ComponentLayout>
   );
 };
 
-export default Demo;
+export default Component;
 
 const Grids = () => (
   <Grid cols={12} className={"gap-10"}>

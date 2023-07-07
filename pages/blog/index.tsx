@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import Modal from "@/components/dialogs/Modal";
 
@@ -9,14 +9,19 @@ import useSWR, { mutate } from "swr";
 
 import dynamic from "next/dynamic";
 import Skeleton from "@/components/common/Skeleton";
+import { GetServerSideProps } from "next";
+import axios from "@/apis/index";
+import useServerSWR from "@/lib/hooks/use-server-swr";
+import { getServerProps } from "@/lib/utils";
+// import { getServerProps } from "@/lib/utils";
 
 const API = "https://jsonplaceholder.typicode.com/todos";
 const data = [1, 2, 3, 4, 5, 6, 7];
 
-const Blog = ({ fallback }: any) => {
+const Blog = () => {
   const router = useRouter();
 
-  const { data, error, isLoading, isValidating } = useSWR(API);
+  const { data, isLoading, isValidating, loading } = useServerSWR(API);
 
   return (
     <>
@@ -24,18 +29,18 @@ const Blog = ({ fallback }: any) => {
         open={!!router.query.id}
         onClose={() => router.push("/blog")}
         responsive
+        blurred={false}
       >
         <Modal.Content className="p-10">
           <PostModal id={router.query.id as string} />
         </Modal.Content>
       </Modal>
-
-      <div className="container hidden laptop:hidden desktop:hidden tablet:block">
-        Tablet
-      </div>
-
-      <div className="container grid grid-cols-2 gap-10 py-10 laptop:grid-cols-4">
-        {isLoading ? (
+      {/* {isValidating ? "validating" : null} */}
+      <div
+        suppressHydrationWarning
+        className="container grid grid-cols-2 gap-10 py-10 laptop:grid-cols-4"
+      >
+        {loading ? (
           <>
             {[...Array(10)].map((_, index) => (
               <Skeleton key={index} className="w-full h-40 rounded-xl" />
@@ -44,12 +49,16 @@ const Blog = ({ fallback }: any) => {
         ) : (
           <>
             {data?.map((post: any, index: number) => (
-              <div key={index} className="p-5 paper rounded-xl">
+              <div
+                key={index}
+                className="p-5 paper rounded-xl"
+                suppressHydrationWarning
+              >
                 <Link
+                  suppressHydrationWarning
                   href={`/blog/?id=${post?.id}`}
                   as={`/blog/${post?.id}`}
                   className="font-bold"
-                  passHref
                 >
                   {post?.title}
                 </Link>
@@ -62,25 +71,13 @@ const Blog = ({ fallback }: any) => {
   );
 };
 
-// export default Blog;
+export default Blog;
 
-export default dynamic(() => Promise.resolve(Blog), { ssr: false });
+// export default dynamic(() => Promise.resolve(Blog), { ssr: false });
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { data, status } = await axios.get(API);
-//   if (status === 404) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-//   return {
-//     props: {
-//       fallback: {
-//         [API]: data || [],
-//       },
-//     },
-//   };
-// };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return await getServerProps(context, API);
+};
 
 const PostModal = ({ id }: { id: string }) => {
   const { data, error, isLoading, isValidating, mutate } = useSWR(
@@ -91,7 +88,7 @@ const PostModal = ({ id }: { id: string }) => {
   );
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <h1 className="text-2xl">{data?.title}</h1>
     </div>
   );

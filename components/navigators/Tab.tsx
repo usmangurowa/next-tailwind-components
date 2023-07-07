@@ -1,6 +1,8 @@
 import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { clx } from "@/lib/utils";
+import NavIndicator from "../others/NavIndicator";
+import { clf, clsx } from "class-flex";
 
 interface TabProps extends Tabs.TabsProps {
   active?: string | number | boolean;
@@ -70,6 +72,20 @@ const Tab = ({
   );
 };
 
+const tabList = clf("relative transition-all", {
+  variants: {
+    orientation: {
+      horizontal: "flex flex-row ",
+      vertical: "flex flex-col items-center",
+    },
+  },
+  // responsive: {
+  //   "[&>.tab-item[aria-selected=true]]":
+  //     "bg-primary-700 transition-all duration-300 ease-in-out",
+  //   "[&>.tab-item[aria-selected=true]]:hover": "bg-primary-50",
+  // },
+});
+
 const TabItems = ({
   children,
   className,
@@ -83,57 +99,27 @@ const TabItems = ({
     value,
   } = React.useContext(TabContext);
 
-  const classes = clx(
-    "relative",
-    {
-      "flex !flex-col items-center": orientation === "vertical",
-    },
-    className
-  );
-
-  const listRef = React.useRef<HTMLDivElement>(null);
-
-  const slider = React.useRef<HTMLDivElement>(null);
-
-  const sliderClasses = clx(
-    "absolute opacity-0 top-0 left-0 w-0 h-[2px] transition-all duration-300 ease-in-out  bg-paper-dark dark:bg-paper",
-    {
-      "w-0 h-[2px]": orientation === "horizontal",
-      "w-[2px] h-0": orientation === "vertical",
-    },
-    sliderClass
-  );
-
-  React.useEffect(() => {
-    const func = () =>
-      slider.current?.classList.contains("opacity-0") &&
-      slider.current?.classList.remove("opacity-0");
-    if (indicator) {
-      const activeTab = listRef.current?.querySelector(
-        ".tab-item[aria-selected=true]"
-      );
-      if (activeTab) {
-        const { offsetTop, offsetHeight, offsetWidth, offsetLeft } =
-          activeTab as HTMLDivElement;
-        const styles =
-          orientation === "horizontal"
-            ? `top: ${offsetHeight}px; width: ${offsetWidth}px; left: ${offsetLeft}px;`
-            : `top: ${offsetTop}px; height: ${offsetHeight}px; left: ${offsetWidth}px;`;
-
-        slider.current?.setAttribute("style", styles);
-        slider.current?.addEventListener("transitionend", func);
-      }
-    }
-
-    return () => {
-      slider.current?.removeEventListener("transitionend", func);
-    };
-  }, [active, value, orientation]);
-
   return (
-    <Tabs.List className={classes} ref={listRef} {...props}>
+    <Tabs.List className={tabList({ orientation, className })} {...props}>
       {children}
-      {indicator && <div ref={slider} className={sliderClasses} />}
+      {indicator && (
+        <NavIndicator
+          activeQuery=".tab-item[aria-selected=true]"
+          extraKeys={[active, value, orientation]}
+        >
+          {({ height, left, top, width, className }) => (
+            <NavIndicator.Indicator
+              className={clsx(className, {
+                "w-0 h-[2px]": orientation === "horizontal",
+                "w-[2px] h-0": orientation === "vertical",
+              })}
+              {...(orientation === "horizontal"
+                ? { top: height, width, left, height: 3 }
+                : { top, height, left: width, width: 3 })}
+            />
+          )}
+        </NavIndicator>
+      )}
     </Tabs.List>
   );
 };

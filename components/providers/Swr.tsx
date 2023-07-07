@@ -9,10 +9,10 @@ const Swr = ({
   return (
     <SWRConfig
       value={{
+        // ...value,
         provider: localStorageProvider,
         fetcher: fetcher,
-        fallbackData: null,
-        ...value,
+        fallback: value?.fallback || undefined,
       }}
     >
       {children}

@@ -2,30 +2,29 @@ import { useRouter } from "next/router";
 import React from "react";
 import { clsx } from "class-flex";
 import Link from "next/link";
-import { HomeIcon, ArchiveIcon, DashboardIcon } from "@radix-ui/react-icons";
-
-const links = [
-  {
-    name: "Home",
-    href: "/",
-    icon: <HomeIcon />,
-  },
-  {
-    name: "Blog",
-    href: "/blog",
-    icon: <ArchiveIcon />,
-  },
-  {
-    name: "Demo",
-    href: "/demo",
-    icon: <DashboardIcon />,
-  },
-];
+import { links } from "@/lib/constants";
+import NavIndicator from "../others/NavIndicator";
 
 const BottomNav = () => {
   const router = useRouter();
   const navRef = React.useRef<HTMLUListElement>(null);
   const slider = React.useRef<HTMLDivElement>(null);
+
+  const checkActive = React.useCallback(
+    (link: string) => {
+      const pathname = router.pathname.replace("/", "");
+      link = link?.replace("/", "");
+      if (!link && !pathname) {
+        return true;
+      }
+      if (link && pathname && pathname.startsWith(link)) {
+        return true;
+      }
+      return false;
+    },
+
+    [router.pathname]
+  );
 
   React.useEffect(() => {
     const func = () =>
@@ -43,6 +42,7 @@ const BottomNav = () => {
       );
       slider.current?.addEventListener("transitionend", func);
     }
+
     return () => {
       slider.current?.removeEventListener("transitionend", func);
     };
@@ -57,23 +57,12 @@ const BottomNav = () => {
         <ul className="container relative flex flex-row items-center py-3 space-x-3">
           {links.map((link, index) => (
             <li
-              aria-selected={
-                link.href !== "/" && router.pathname.startsWith(link.href)
-                  ? true
-                  : link.href === "/" && router.pathname === "/"
-                  ? true
-                  : false
-              }
+              aria-selected={checkActive(link.href)}
               key={index}
               className={clsx(
                 `nav-item flex-1 text-center p-2 z-10 font-semibold transition-all duration-150 ease-in`,
                 {
-                  "text-white dark:text-dark":
-                    link.href !== "/" && router.pathname.startsWith(link.href)
-                      ? true
-                      : link.href === "/" && router.pathname === "/"
-                      ? true
-                      : false,
+                  "text-white dark:text-dark": checkActive(link.href),
                 }
               )}
             >
@@ -81,24 +70,102 @@ const BottomNav = () => {
                 className="flex items-center justify-center w-full gap-2 truncate text-inherit whitespace-nowrap"
                 href={link.href}
               >
-                {link.icon} <span>{link.name}</span>
+                <link.icon /> <span>{link.name}</span>
               </Link>
             </li>
           ))}
-          <div
-            className={
-              "absolute opacity-0 bottom-0 rounded-full  left-0 w-0 h-[2px] transition-['left'] duration-300 ease-in-out bg-paper-dark dark:bg-paper !mx-0"
-            }
-            ref={slider}
-          />
+          <NavIndicator>
+            {(prop) => (
+              <NavIndicator.Indicator
+                {...prop}
+                className={clsx(prop.className, "rounded-full")}
+              />
+            )}
+          </NavIndicator>
         </ul>
       </nav>
       <div
         className="absolute bottom-0 left-0 w-full"
         style={{ height: `${navRef.current?.style.height}px` }}
       />
+      <Nav>
+        {/* <ListItem link="/" active={active}> */}
+        {/* <div>hi</div> */}
+      </Nav>
     </>
   );
 };
 
 export default BottomNav;
+
+const Nav = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
+
+  const checkActive = React.useCallback(
+    (link: string) => {
+      const pathname = router.pathname.replace("/", "");
+      link = link?.replace("/", "");
+
+      if (!link && !pathname) {
+        return true;
+      }
+      if (link && pathname && pathname.startsWith(link)) {
+        return true;
+      }
+      return false;
+    },
+
+    [router.pathname]
+  );
+
+  return (
+    <nav>
+      <ul>
+        {React.Children.map(children, (child: any) => {
+          const childLink = child.props.link;
+          return React.cloneElement(child as React.ReactElement<any>, {
+            active: checkActive(childLink),
+          });
+        })}
+      </ul>
+    </nav>
+  );
+};
+
+interface ListItemProps {
+  active?: boolean;
+  children: (val: any) => React.ReactNode;
+  href?: string;
+  target?: "_blank" | "self" | "_parent" | "_top";
+}
+
+const ListItem = ({
+  active,
+  children,
+  href,
+  target = "self",
+}: ListItemProps) => {
+  return (
+    <li
+      className={clsx(
+        "nav-item flex-1 text-center p-2 z-10 font-semibold transition-all duration-150 ease-in"
+      )}
+    >
+      <Link href={href || "#"} target={target}>
+        {children({ active })}
+      </Link>
+    </li>
+  );
+};
+
+const Render = () => {
+  return (
+    <>
+      <ListItem>
+        {(active) => {
+          return <></>;
+        }}
+      </ListItem>
+    </>
+  );
+};
