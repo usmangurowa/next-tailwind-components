@@ -1,7 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import userServerSWR from "@/lib/hooks/use-server-swr";
 import Skeleton from "@/components/common/Skeleton";
 import useServerSWR from "@/lib/hooks/use-server-swr";
 import { getServerProps } from "@/lib/utils";

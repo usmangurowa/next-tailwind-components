@@ -20,6 +20,7 @@ export const getServerProps: any = async (
 ) => {
   try {
     const { data, status } = await axios.get(endpoint);
+
     if (status === 404) {
       return {
         notFound: true,

@@ -67,7 +67,7 @@ export default Blog;
 // export default dynamic(() => Promise.resolve(Blog), { ssr: false });
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await getServerProps(context, API);
+  return await getServerProps(API, context);
 };
 
 const PostModal = ({ id }: { id: string }) => {
