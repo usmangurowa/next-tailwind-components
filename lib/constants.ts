@@ -66,3 +66,16 @@ export const links = [
     icon: DashboardIcon,
   },
 ];
+
+export const providers = [
+  {
+    name: "Google",
+    id: "google",
+    type: "oauth",
+  },
+  {
+    name: "Github",
+    id: "github",
+    type: "oauth",
+  },
+];

@@ -1,10 +1,12 @@
 import Input from "@/components/common/Input";
+import { getMainLayout } from "@/components/layouts/MainLayout";
 import Pagination from "@/components/navigators/Pagination";
 import useServerSWR from "@/lib/hooks/use-server-swr";
 import { getServerProps, objectToQueryString } from "@/lib/utils";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
+import { NextPageWithLayout } from "../_app";
 
 interface InfoType {
   count: number;
@@ -14,7 +16,7 @@ interface InfoType {
 }
 
 const API = "https://rickandmortyapi.com/api/character";
-const RickMorty: NextPage = () => {
+const RickMorty: NextPageWithLayout = () => {
   const router = useRouter();
   const page: number = Number(router.query?.page) || 1;
 
@@ -81,6 +83,8 @@ const RickMorty: NextPage = () => {
     </div>
   );
 };
+
+RickMorty.getLayout = getMainLayout;
 
 export default RickMorty;
 

@@ -17,5 +17,10 @@ export const authOptions: NextAuthOptions = {
     // ...add more providers here
   ],
   secret: config.env.OAUTH.NEXTAUTH_SECRET as string,
+  // callbacks: {
+  //   signIn({ account, user, credentials, email, profile }) {
+  //     return true;
+  //   },
+  // },
 };
 export default NextAuth(authOptions);

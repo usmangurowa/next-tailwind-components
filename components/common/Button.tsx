@@ -115,7 +115,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </div>
         )}
         {left}
-        <span className="overflow-hidden truncate text-ellipsis">
+        <span className="flex items-center gap-2 overflow-hidden text-center truncate text-ellipsis whitespace-nowrap">
           {children}
         </span>
         {right}

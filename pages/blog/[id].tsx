@@ -5,6 +5,7 @@ import Skeleton from "@/components/common/Skeleton";
 import useServerSWR from "@/lib/hooks/use-server-swr";
 import { getServerProps } from "@/lib/utils";
 import { GetServerSideProps } from "next";
+import { getMainLayout } from "@/components/layouts/MainLayout";
 
 const API = "https://jsonplaceholder.typicode.com/posts/";
 
@@ -26,6 +27,8 @@ const Blog = () => {
     </main>
   );
 };
+
+Blog.getLayout = getMainLayout;
 
 export default Blog;
 

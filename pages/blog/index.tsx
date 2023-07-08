@@ -13,6 +13,7 @@ import { GetServerSideProps } from "next";
 import axios from "@/apis/index";
 import useServerSWR from "@/lib/hooks/use-server-swr";
 import { getServerProps } from "@/lib/utils";
+import { getMainLayout } from "@/components/layouts/MainLayout";
 // import { getServerProps } from "@/lib/utils";
 
 const API = "https://jsonplaceholder.typicode.com/todos";
@@ -61,6 +62,8 @@ const Blog = () => {
     </>
   );
 };
+
+Blog.getLayout = getMainLayout;
 
 export default Blog;
 

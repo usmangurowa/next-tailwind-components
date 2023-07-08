@@ -13,6 +13,7 @@ import Tab from "@/components/navigators/Tab";
 import { useRouter } from "next/router";
 import Overlay from "@/components/dialogs/Overlay";
 import BottomNav from "@/components/navigators/BottomNav";
+import { getMainLayout } from "@/components/layouts/MainLayout";
 
 const data = [1, 2, 3, 4, 5, 6, 7];
 
@@ -60,8 +61,6 @@ const Index = () => {
           </Sheet.Content>
         </Sheet>
 
-        <Link href="/blog">Go to blog</Link>
-        <h1 className="text-4xl font-bold">Hello World</h1>
         <Button
           left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
           // rounded="lg"
@@ -143,4 +142,5 @@ const Index = () => {
   );
 };
 
+Index.getLayout = getMainLayout;
 export default Index;

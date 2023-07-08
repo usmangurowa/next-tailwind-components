@@ -11,6 +11,7 @@ import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import { Switch } from "@usmangurowa/react-switch";
 import Grid from "@/components/containers/Grid";
 import Input from "@/components/common/Input";
+import { getMainLayout } from "@/components/layouts/MainLayout";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -51,6 +52,8 @@ const Component = () => {
     </ComponentLayout>
   );
 };
+
+Component.getLayout = getMainLayout;
 
 export default Component;
 

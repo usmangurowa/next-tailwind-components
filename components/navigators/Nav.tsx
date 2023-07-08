@@ -112,26 +112,22 @@ const Nav = () => {
                   </Button>
                 </Menu.Trigger>
                 <Menu.Content arrowPadding={5} sideOffset={5}>
+                  <Menu.Item className="justify-between" onClick={toggleTheme}>
+                    <Switch case={theme}>
+                      <Switch.Case when="light" default>
+                        <span>Dark Mode</span> <MoonIcon />
+                      </Switch.Case>
+                      <Switch.Case when="dark">
+                        <span>Light Mode</span> <SunIcon />
+                      </Switch.Case>
+                    </Switch>
+                  </Menu.Item>
+                  <Menu.Separator />
                   <Menu.Item
                     onClick={() => signOut()}
                     className="whitespace-nowrap"
                   >
                     Logout
-                  </Menu.Item>
-                  <Menu.Separator />
-                  <Menu.Item className="justify-between" onClick={toggleTheme}>
-                    <Switch case={theme}>
-                      <Switch.Case when="light">
-                        <>
-                          <span>Dark Mode</span> <MoonIcon />
-                        </>
-                      </Switch.Case>
-                      <Switch.Case when="dark">
-                        <>
-                          <span>Light Mode</span> <SunIcon />
-                        </>
-                      </Switch.Case>
-                    </Switch>
                   </Menu.Item>
                 </Menu.Content>
               </Menu>
@@ -139,9 +135,7 @@ const Nav = () => {
           </Switch.Case>
           <Switch.Case when="false">
             <li>
-              <Button mode="text" onClick={() => signIn()} size="sm">
-                Login
-              </Button>
+              <Link href={"/auth"}>Login</Link>
             </li>
           </Switch.Case>
         </Switch>
