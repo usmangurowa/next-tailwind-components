@@ -11,7 +11,7 @@ export default function App({
   session,
 }: AppProps & { fallback?: any; session?: any }) {
   return (
-    <Providers fallback={fallback} session={session}>
+    <Providers fallback={pageProps?.fallback} session={session}>
       <Nav />
       <Component {...pageProps} />
       <BottomNav />

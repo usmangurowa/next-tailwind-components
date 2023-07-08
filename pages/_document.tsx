@@ -4,7 +4,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body className="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-200 transition-colors duration-300 ease-in-out">
+      <body
+        // style={{ marginRight: "0px !important", marginLeft: "0px !important" }}
+        className="text-gray-900 transition-colors duration-300 ease-in-out bg-white dark:bg-gray-950 dark:text-gray-200"
+      >
         <Main />
         <NextScript />
       </body>

@@ -49,7 +49,7 @@ const Index = () => {
 
   return (
     <>
-      <div className="container min-h-screen gap-5 space-x-5 space-y-5 ">
+      <div className="container min-h-screen space-y-5">
         <Sheet open={open} onClose={() => setOpen(false)}>
           <Sheet.Content className="w-full h-full">
             <ul>

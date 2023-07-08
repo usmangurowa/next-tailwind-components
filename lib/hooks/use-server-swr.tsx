@@ -1,35 +1,27 @@
 import React from "react";
 import useSWR, { SWRConfiguration, useSWRConfig } from "swr";
+import useEnvironment from "./use-environemnt";
 
-const useServerSWR = (
-  key: string,
-  options?: SWRConfiguration & {
-    key?: string;
-    initialData?: any;
-    fallback?: any;
-  }
-) => {
+const useServerSWR = <T,>(key: string, options?: SWRConfiguration) => {
   const { fallback, cache } = useSWRConfig();
-  const { data, error, isLoading, isValidating, mutate } = useSWR(key, {
+  const { data, error, isLoading, isValidating, mutate } = useSWR<T>(key, {
     fallbackData: fallback ? fallback?.[key] : null,
     ...options,
   });
-  const [loading, setLoading] = React.useState(isLoading);
 
-  const fallbackData = fallback?.[key] || cache.get(key)?.data || null;
+  const { isClient } = useEnvironment();
 
-  React.useEffect(() => {
-    if (fallbackData || data) {
-      setLoading(false);
-    }
-  }, [fallbackData, data]);
+  const fallbackData = React.useMemo(
+    () =>
+      fallback?.[key] || options?.fallbackData || cache?.get(key)?.data || null,
+    [key, options?.fallbackData, cache]
+  );
 
   return {
-    data: data || fallbackData,
+    data: (data as T) || (fallbackData as T),
     error,
-    isLoading: fallbackData ? false : isLoading,
-    isValidating,
-    loading,
+    isLoading: isClient ? isLoading : false,
+    isValidating: isClient ? isValidating : false,
     mutate,
   };
 };

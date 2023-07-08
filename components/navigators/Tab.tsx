@@ -1,6 +1,5 @@
 import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
-import { clx } from "@/lib/utils";
 import NavIndicator from "../others/NavIndicator";
 import { clf, clsx } from "class-flex";
 
@@ -41,7 +40,7 @@ const Tab = ({
   orientation,
   ...props
 }: TabProps & React.HTMLAttributes<HTMLDivElement>) => {
-  const classes = clx(
+  const classes = clsx(
     "w-full",
     {
       // "flex flex-row items-center": orientation === "horizontal",
@@ -135,7 +134,7 @@ const TabItem = ({
   active?: string | number | boolean;
   index?: number;
 }) => {
-  const classes = clx("p-2 tab-item", className);
+  const classes = clsx("p-2 tab-item", className);
 
   return (
     <Tabs.Trigger className={classes} value={value} {...props}>
@@ -145,7 +144,7 @@ const TabItem = ({
 };
 
 const TabContent = ({ className, children, ...props }: TabPanelProps) => {
-  const classes = clx("flex-grow", className);
+  const classes = clsx("flex-grow", className);
   return (
     <Tabs.Content className={classes} {...props}>
       {children}

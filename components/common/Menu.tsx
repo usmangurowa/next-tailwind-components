@@ -18,9 +18,6 @@ import {
   Separator,
 } from "@radix-ui/react-dropdown-menu";
 
-// import * as MenuPrimitive from "@radix-ui/react-Menu";
-// import { Check, ChevronRight, Circle } from "lucide-react";
-
 import { clsx } from "class-flex";
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "@radix-ui/react-icons";
 
@@ -37,8 +34,11 @@ const MenuRadioGroup = RadioGroup;
 //   React.ComponentPropsWithoutRef<typeof any>
 //     >(({ ...props }, ref) => <Root {...props} />);
 
-const Menu = ({ ...props }: React.ComponentPropsWithoutRef<typeof Root>) => (
-  <Root {...props} />
+const Menu = ({
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Root>) => (
+  <Root {...props}>{children}</Root>
 );
 
 Menu.displayName = Root.displayName;
@@ -97,10 +97,19 @@ MenuSubContent.displayName = SubContent.displayName;
 
 const MenuContent = React.forwardRef<
   React.ElementRef<typeof Content>,
-  React.ComponentPropsWithoutRef<typeof Content>
+  React.ComponentPropsWithoutRef<typeof Content> & {
+    withArrow?: boolean;
+  }
 >(
   (
-    { className, align = "start", alignOffset = -4, sideOffset = 8, ...props },
+    {
+      className,
+      align = "start",
+      alignOffset = -4,
+      sideOffset = 8,
+      withArrow = true,
+      ...props
+    },
     ref
   ) => (
     <Portal>
@@ -114,7 +123,12 @@ const MenuContent = React.forwardRef<
           className
         )}
         {...props}
-      />
+      >
+        {withArrow ? (
+          <Arrow className="absolute w-5 h-5 transform -translate-x-1/2 -translate-y-1/2 rounded-full top-full text-paper dark:text-paper-dark" />
+        ) : null}
+        {props.children}
+      </Content>
     </Portal>
   )
 );
@@ -130,7 +144,7 @@ const MenuItem = React.forwardRef<
   <Item
     ref={ref}
     className={clsx(
-      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex whitespace-nowrap dark:hover:bg-dark cursor-pointer hover:bg-gray-50 gap-4  w-full  select-none items-center rounded px-2 py-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       {
         "pl-8": inset,
       },
@@ -210,7 +224,7 @@ const MenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Separator
     ref={ref}
-    className={clsx("-mx-1 my-1 h-px bg-muted", className)}
+    className={clsx("-mx-1 my-1 h-px bg-gray-500", className)}
     {...props}
   />
 ));

@@ -12,7 +12,7 @@ const Swr = ({
         // ...value,
         provider: localStorageProvider,
         fetcher: fetcher,
-        fallback: value?.fallback || undefined,
+        fallback: value?.fallback,
       }}
     >
       {children}

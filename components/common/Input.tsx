@@ -1,9 +1,8 @@
 import React from "react";
 
-import { clx } from "@/lib/utils";
 import { roundness, padding_sizes as input_sizes } from "@/lib/constants";
 
-import { clf, clsx, twMerge } from "class-flex";
+import { clf, clsx } from "class-flex";
 
 type InputClassProps = {
   inputSize?: keyof typeof input_sizes;
@@ -112,15 +111,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           error,
           className: classNames?.input,
         }),
-        label: clx(
+        label: clsx(
           "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
           classNames?.label,
           {
             "text-danger": error,
           }
         ),
-        helperText: clx(classNames?.helperText),
-        container: clx(
+        helperText: clsx(classNames?.helperText),
+        container: clsx(
           "flex flex-col w-fit space-y-1 bg-transparent",
           {
             "w-full": full,

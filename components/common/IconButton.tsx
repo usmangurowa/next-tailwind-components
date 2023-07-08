@@ -12,7 +12,7 @@ interface VariantProps {
   disabled?: boolean;
 }
 
-interface IconButtonProps
+export interface IconButtonProps
   extends React.DetailedHTMLProps<
       React.ButtonHTMLAttributes<HTMLButtonElement>,
       HTMLButtonElement

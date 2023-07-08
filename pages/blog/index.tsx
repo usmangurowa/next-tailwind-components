@@ -16,12 +16,11 @@ import { getServerProps } from "@/lib/utils";
 // import { getServerProps } from "@/lib/utils";
 
 const API = "https://jsonplaceholder.typicode.com/todos";
-const data = [1, 2, 3, 4, 5, 6, 7];
 
 const Blog = () => {
   const router = useRouter();
 
-  const { data, isLoading, isValidating, loading } = useServerSWR(API);
+  const { data, isLoading, isValidating } = useServerSWR<any[]>(API);
 
   return (
     <>
@@ -35,36 +34,28 @@ const Blog = () => {
           <PostModal id={router.query.id as string} />
         </Modal.Content>
       </Modal>
-      {/* {isValidating ? "validating" : null} */}
-      <div
-        suppressHydrationWarning
-        className="container grid grid-cols-2 gap-10 py-10 laptop:grid-cols-4"
-      >
-        {loading ? (
+
+      <div className="container grid grid-cols-2 gap-10 py-10 laptop:grid-cols-4">
+        {data?.map((post: any, index: number) => (
+          <div key={index} className="p-5 paper rounded-xl">
+            <Link
+              href={`/blog/?id=${post?.id}`}
+              as={`/blog/${post?.id}`}
+              className="font-bold"
+            >
+              {post?.title}
+            </Link>
+          </div>
+        ))}
+
+        {isLoading ? (
           <>
             {[...Array(10)].map((_, index) => (
               <Skeleton key={index} className="w-full h-40 rounded-xl" />
             ))}
           </>
         ) : (
-          <>
-            {data?.map((post: any, index: number) => (
-              <div
-                key={index}
-                className="p-5 paper rounded-xl"
-                suppressHydrationWarning
-              >
-                <Link
-                  suppressHydrationWarning
-                  href={`/blog/?id=${post?.id}`}
-                  as={`/blog/${post?.id}`}
-                  className="font-bold"
-                >
-                  {post?.title}
-                </Link>
-              </div>
-            ))}
-          </>
+          <></>
         )}
       </div>
     </>

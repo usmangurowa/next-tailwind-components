@@ -1,4 +1,9 @@
-import { HomeIcon, ArchiveIcon, DashboardIcon } from "@radix-ui/react-icons";
+import {
+  HomeIcon,
+  ArchiveIcon,
+  DashboardIcon,
+  ActivityLogIcon,
+} from "@radix-ui/react-icons";
 
 export const roundness = {
   none: "rounded-none",
@@ -49,6 +54,11 @@ export const links = [
     name: "Blog",
     href: "/blog",
     icon: ArchiveIcon,
+  },
+  {
+    name: "Rick & Morty",
+    href: "/rickmorty",
+    icon: ActivityLogIcon,
   },
   {
     name: "Components",

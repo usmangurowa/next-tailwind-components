@@ -1,6 +1,6 @@
 import { roundness, sizes } from "@/lib/constants";
-import { clx } from "@/lib/utils";
-import { clf } from "class-flex";
+
+import { clf, clsx } from "class-flex";
 
 import React from "react";
 

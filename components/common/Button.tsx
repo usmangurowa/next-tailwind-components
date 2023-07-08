@@ -1,8 +1,6 @@
 import React from "react";
 import { Spinner } from "../loaders";
-import { clx, cvaPlaceholder, cvaPlus } from "@/lib/utils";
 import { padding_sizes, roundness } from "@/lib/constants";
-import { cva } from "cva";
 import { clf, clsx } from "class-flex";
 
 interface VariantProps {

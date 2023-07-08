@@ -30,3 +30,24 @@ enum Actions {
   LOGOUT = "LOGOUT",
   INITIALIZE = "INITIALIZE",
 }
+
+interface Character {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string | null;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
