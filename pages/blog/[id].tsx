@@ -11,7 +11,7 @@ const API = "https://jsonplaceholder.typicode.com/posts/";
 
 const Blog = () => {
   const router = useRouter();
-  const { data, error, isLoading, isValidating, mutate } = useServerSWR(
+  const { data, error, isLoading, isValidating, mutate } = useServerSWR<any>(
     `${API}${router?.query?.id}`
   );
 
