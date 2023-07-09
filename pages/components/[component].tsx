@@ -12,6 +12,10 @@ import { Switch } from "@usmangurowa/react-switch";
 import Grid from "@/components/containers/Grid";
 import Input from "@/components/common/Input";
 import { getMainLayout } from "@/components/layouts/MainLayout";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
+
+import Editor from "@/components/others/Editor";
+import CardImage from "@/components/cards/CardImage";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -45,6 +49,7 @@ const Component = () => {
       </Tab.Content>
       <Tab.Content value="grid">
         <Grids />
+        <Editors />
       </Tab.Content>
       <Tab.Content value="">
         <h1 className="text-2xl font-bold">Coming soon...</h1>
@@ -57,32 +62,18 @@ Component.getLayout = getMainLayout;
 
 export default Component;
 
-const Grids = () => (
-  <Grid cols={12} className={"gap-10"}>
-    <Button size="md" variant="secondary">
-      Contained Secondary
-    </Button>
-    {/* <div className="size-lg bg-secondary"></div> */}
-    <Button size="lg">Contained</Button>
-    <Button rounded="full" variant="secondary">
-      Contained
-    </Button>
-    <Button size="sm" variant="secondary">
-      Contained Secondary small Lorem ipsum dolor.
-    </Button>
-
-    <Button mode="outlined" variant="secondary">
-      Outlined
-    </Button>
-    <Button mode="outlined" variant="secondary">
-      Outlined
-    </Button>
-    <Button mode="outlined">cool</Button>
-    <Button mode="outlined" variant="secondary">
-      cool
-    </Button>
-  </Grid>
-);
+const Grids = () => {
+  return (
+    <>
+      <CardImage
+        // src={"https://images.unsplash.com/p"}
+        src={img}
+        alt="Image"
+        className="w-72 h-72"
+      />
+    </>
+  );
+};
 
 const Inputs = () => {
   return (
@@ -234,6 +225,16 @@ const Avatars = () => {
         <Avatar alt={""} fallback={"US"} size="3xl" src={img} rounded="full" />
       </div>
     </>
+  );
+};
+
+const Editors = () => {
+  return (
+    <Editor
+      // height="90vh"
+      defaultLanguage="javascript"
+      defaultValue="// some comment"
+    />
   );
 };
 

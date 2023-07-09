@@ -2,6 +2,11 @@ import React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import NavIndicator from "../others/NavIndicator";
 import { clf, clsx } from "class-flex";
+import {
+  CSSTransition,
+  SwitchTransition,
+  TransitionGroup,
+} from "react-transition-group";
 
 interface TabProps extends Tabs.TabsProps {
   active?: string | number | boolean;
@@ -43,7 +48,6 @@ const Tab = ({
   const classes = clsx(
     "w-full",
     {
-      // "flex flex-row items-center": orientation === "horizontal",
       "flex flex-row": orientation === "vertical",
     },
     className
@@ -56,18 +60,20 @@ const Tab = ({
   }, []);
 
   return (
-    <Tabs.Root
-      orientation={orientation}
-      className={classes}
-      onValueChange={onChange}
-      value={value}
-      defaultValue={defaultValue}
-      {...props}
-    >
-      <TabContext.Provider value={{ active, orientation, value }}>
-        {children}
-      </TabContext.Provider>
-    </Tabs.Root>
+    <>
+      <Tabs.Root
+        orientation={orientation}
+        className={classes}
+        onValueChange={onChange}
+        value={value}
+        defaultValue={defaultValue}
+        {...props}
+      >
+        <TabContext.Provider value={{ active, orientation, value }}>
+          {children}
+        </TabContext.Provider>
+      </Tabs.Root>
+    </>
   );
 };
 
@@ -78,11 +84,6 @@ const tabList = clf("relative transition-all", {
       vertical: "flex flex-col items-center",
     },
   },
-  // responsive: {
-  //   "[&>.tab-item[aria-selected=true]]":
-  //     "bg-primary-700 transition-all duration-300 ease-in-out",
-  //   "[&>.tab-item[aria-selected=true]]:hover": "bg-primary-50",
-  // },
 });
 
 const TabItems = ({
@@ -146,9 +147,11 @@ const TabItem = ({
 const TabContent = ({ className, children, ...props }: TabPanelProps) => {
   const classes = clsx("flex-grow", className);
   return (
-    <Tabs.Content className={classes} {...props}>
-      {children}
-    </Tabs.Content>
+    <>
+      <Tabs.Content className={classes} {...props}>
+        {children}
+      </Tabs.Content>
+    </>
   );
 };
 
