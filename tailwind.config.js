@@ -82,8 +82,11 @@ module.exports = {
 
         paper: {
           DEFAULT: "#fff",
-          dark: "#1E1E1E",
-          mid: "#333",
+          mid: "#f7f7f7",
+          dark: {
+            DEFAULT: "#1E1E1E",
+            mid: "#333",
+          },
         },
       },
     },

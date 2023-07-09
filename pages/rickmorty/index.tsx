@@ -11,6 +11,7 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import Skeleton from "@/components/common/Skeleton";
 import Avatar from "@/components/common/Avatar";
 import Image from "next/image";
+import Hover from "@/components/dialogs/Hover";
 
 interface InfoType {
   count: number;
@@ -152,17 +153,42 @@ const RickMorty: NextPageWithLayout = () => {
                       className="grid items-center w-full grid-cols-4"
                       key={index}
                     >
-                      <Avatar
-                        alt={character.name}
-                        size="xs"
-                        classNames={{
-                          fallback: "bg-transparent",
-                          root: "row-span-2 ",
-                        }}
-                        fallback={getInitials(character.name)}
-                        src={character.image}
-                        rounded="full"
-                      />
+                      <Hover>
+                        <Hover.Trigger className="cursor-pointer">
+                          <Avatar
+                            alt={character.name}
+                            size="xs"
+                            classNames={{
+                              fallback: "bg-transparent",
+                              root: "row-span-2 ",
+                            }}
+                            fallback={getInitials(character.name)}
+                            src={character.image}
+                            rounded="full"
+                          />
+                          <Hover.Content withArrow={true}>
+                            <div className="flex flex-col w-full p-2 space-y-4 rounded-md">
+                              <Avatar
+                                alt={character.name}
+                                size="xs"
+                                classNames={{
+                                  fallback: "bg-transparent",
+                                  root: "row-span-2 ",
+                                }}
+                                fallback={getInitials(character.name)}
+                                src={character.image}
+                                rounded="full"
+                              />
+                              <p className="w-full text-lg font-semibold truncate text-ellipsis">
+                                {character.name}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                {character.gender}
+                              </p>
+                            </div>
+                          </Hover.Content>
+                        </Hover.Trigger>
+                      </Hover>
                       <div className="col-span-3">
                         <p className="w-full text-lg font-semibold truncate text-ellipsis">
                           {character.name}

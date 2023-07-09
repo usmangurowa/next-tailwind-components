@@ -122,7 +122,7 @@ const MenuContent = React.forwardRef<
         {...props}
       >
         {withArrow ? (
-          <Arrow className="absolute w-5 h-5 transform -translate-x-1/2 -translate-y-1/2 rounded-full top-full text-paper dark:text-paper-dark" />
+          <Arrow className="text-paper dark:text-paper-dark" />
         ) : null}
         {props.children}
       </Content>
