@@ -126,7 +126,7 @@ const RickMorty: NextPageWithLayout = () => {
         {/* {isLoading ? "loading..." : null} */}
         <SwitchTransition>
           <CSSTransition key={page} timeout={300} classNames="fade">
-            <div className="grid grid-cols-4 col-span-4 gap-5">
+            <div className="grid grid-cols-1 col-span-4 gap-5 tablet:grid-cols-2 laptop:grid-cols-4">
               {isLoading ? (
                 <>
                   {[...Array(30)].map((_, i) => (

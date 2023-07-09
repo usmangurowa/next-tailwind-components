@@ -2,6 +2,7 @@ import React from "react";
 import { Spinner } from "../loaders";
 import { padding_sizes, roundness } from "@/lib/constants";
 import { clf, clsx } from "class-flex";
+import Link, { LinkProps } from "next/link";
 
 interface VariantProps {
   loading?: boolean;
@@ -11,6 +12,7 @@ interface VariantProps {
   rounded?: keyof typeof roundness;
   full?: boolean;
   disabled?: boolean;
+  uppercase?: boolean;
 }
 export interface ButtonProps
   extends React.DetailedHTMLProps<
@@ -20,6 +22,8 @@ export interface ButtonProps
     VariantProps {
   left?: React.ReactNode;
   right?: React.ReactNode;
+  href?: string;
+  linkProps?: Omit<LinkProps, "href"> & { className?: string; href?: string };
 }
 
 const btn = clf(
@@ -55,6 +59,9 @@ const btn = clf(
       full: {
         true: "w-full",
       },
+      uppercase: {
+        true: "uppercase",
+      },
       loading: {
         true: "[&>.loader]:visible [&>*]:invisible",
       },
@@ -65,6 +72,9 @@ const btn = clf(
     responsive: {},
   })
 );
+
+const btnChildClass =
+  "flex items-center gap-2 overflow-hidden text-center truncate text-ellipsis whitespace-nowrap";
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -80,6 +90,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       right = null,
       disabled,
       full = false,
+      uppercase = false,
+      href,
+      linkProps,
       ...props
     },
     ref
@@ -97,8 +110,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           loading,
           disabled,
           className,
+          uppercase,
         }),
-      [className, size, mode, rounded, loading, full, disabled, variant]
+      [
+        className,
+        size,
+        mode,
+        rounded,
+        loading,
+        full,
+        disabled,
+        variant,
+        uppercase,
+      ]
     );
 
     return (
@@ -115,9 +139,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </div>
         )}
         {left}
-        <span className="flex items-center gap-2 overflow-hidden text-center truncate text-ellipsis whitespace-nowrap">
-          {children}
-        </span>
+        {href ? (
+          <Link
+            href={href}
+            {...linkProps}
+            className={clsx(btnChildClass, linkProps?.className)}
+          >
+            {children}
+          </Link>
+        ) : (
+          <span className={btnChildClass}>{children}</span>
+        )}
         {right}
       </button>
     );

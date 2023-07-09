@@ -8,11 +8,9 @@ import Avatar from "@/components/common/Avatar";
 import Button from "@/components/common/Button";
 import IconButton from "@/components/common/IconButton";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { Switch } from "@usmangurowa/react-switch";
-import Grid from "@/components/containers/Grid";
+
 import Input from "@/components/common/Input";
 import { getMainLayout } from "@/components/layouts/MainLayout";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 import Editor from "@/components/others/Editor";
 import CardImage from "@/components/cards/CardImage";
@@ -164,8 +162,14 @@ const Buttons = () => {
           Contained Secondary small Lorem ipsum dolor.
         </Button>
 
-        <Button mode="outlined" variant="secondary">
-          Outlined
+        <Button
+          mode="outlined"
+          href="/components/input"
+          uppercase
+          linkProps={{ scroll: false }}
+          variant="secondary"
+        >
+          Inputs
         </Button>
         <Button mode="outlined" variant="secondary">
           Outlined
