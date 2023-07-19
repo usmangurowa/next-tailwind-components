@@ -14,6 +14,7 @@ const tabs = [
   "modal",
   "sheet",
   "cards",
+  "pininput",
 ];
 
 const ComponentLayout = ({ children }: { children: React.ReactNode }) => {

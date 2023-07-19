@@ -14,6 +14,7 @@ import { getMainLayout } from "@/components/layouts/MainLayout";
 
 import Editor from "@/components/others/Editor";
 import CardImage from "@/components/cards/CardImage";
+import PinInput from "@/components/common/PinInput/PinInput";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -41,6 +42,9 @@ const Component = () => {
       </Tab.Content>
       <Tab.Content value="avatar">
         <Avatars />
+      </Tab.Content>
+      <Tab.Content value="pininput">
+        <PinInputs />
       </Tab.Content>
       <Tab.Content value="select">
         <Selects />
@@ -95,6 +99,15 @@ const Inputs = () => {
         mode="underlined"
         variant="secondary"
       />
+    </div>
+  );
+};
+
+const PinInputs = () => {
+  const [pin, setPin] = React.useState("12345");
+  return (
+    <div className="grid w-full grid-cols-1 gap-10 laptop:grid-cols-2">
+      <PinInput value={pin} onChange={(val) => setPin(val)} />
     </div>
   );
 };
