@@ -7,11 +7,4 @@ export default defineConfig({
       bundler: "webpack",
     },
   },
-
-  component: {
-    devServer: {
-      framework: "next",
-      bundler: "webpack",
-    },
-  },
 });
