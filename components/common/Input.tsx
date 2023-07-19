@@ -94,6 +94,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       inputSize,
       style,
       error = false,
+      helperText,
       ...props
     },
     ref
@@ -118,7 +119,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             "text-danger": error,
           }
         ),
-        helperText: clsx(classNames?.helperText),
+        helperText: clsx(
+          "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
+          classNames?.helperText,
+          {
+            "text-danger": error,
+          }
+        ),
         container: clsx(
           "flex flex-col w-fit space-y-1 bg-transparent",
           {
@@ -127,13 +134,26 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           classNames?.container
         ),
       }),
-      []
+      [
+        error,
+        helperText,
+        classNames,
+        className,
+        rounded,
+        inputSize,
+        mode,
+        variant,
+        label,
+        helperText,
+        full,
+      ]
     );
 
     return (
       <div className={classes.container}>
         {label && <label className={classes.label}>{label}</label>}
         <input ref={ref} className={classes.input} {...props} />
+        {helperText && <span className={classes.helperText}>{helperText}</span>}
       </div>
     );
   }

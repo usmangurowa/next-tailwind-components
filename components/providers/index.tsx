@@ -5,6 +5,7 @@ import Swr from "./Swr";
 import { StoreProvider } from "./Store";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
+import { ToastProvider } from "../common/Toast";
 
 const Provider = ({
   children,
@@ -16,7 +17,9 @@ const Provider = ({
       <SessionProvider session={session}>
         <StoreProvider>
           <Swr value={{ fallback }}>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </ThemeProvider>
           </Swr>
         </StoreProvider>
       </SessionProvider>

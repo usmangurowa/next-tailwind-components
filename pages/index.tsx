@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import Overlay from "@/components/dialogs/Overlay";
 import BottomNav from "@/components/navigators/BottomNav";
 import { getMainLayout } from "@/components/layouts/MainLayout";
+import { useToast } from "@/components/common/Toast";
 
 const data = [1, 2, 3, 4, 5, 6, 7];
 
@@ -27,6 +28,8 @@ const Index = () => {
   const router = useRouter();
   // console.log(router.pathname);
   const [tab, setTab] = React.useState(router.query.tab as string);
+
+  const toast = useToast();
 
   const switchTab = React.useCallback(
     (tab: string) => {
@@ -76,9 +79,34 @@ const Index = () => {
           size="sm"
           className=""
           mode="outlined"
-          onClick={() => setOpen(!open)}
+          onClick={() =>
+            toast({
+              title: "Hello",
+              description: "World",
+              duration: 3000,
+              status: "success",
+            })
+          }
         >
-          Open Sheet
+          shot toast
+        </Button>
+        <Button
+          left={theme === "light" ? <EyeClosedIcon /> : <EyeOpenIcon />}
+          rounded="lg"
+          size="sm"
+          className=""
+          mode="outlined"
+          onClick={() =>
+            toast({
+              title: "Hello World Error",
+              description:
+                "lorem ipsum dolroes sit amaesa vdasvjhbvr jhbj srbhwjr",
+              duration: 3000,
+              status: "error",
+            })
+          }
+        >
+          shot toast
         </Button>
         <div className="p-10 rounded-md paper">
           <h1 className="text-4xl font-bold">Hello World</h1>

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.5.1",
@@ -51,14 +54,25 @@
     "swr": "^2.1.5",
     "tailwind-merge": "^1.13.0",
     "tailwindcss-dark-mode": "^1.1.7",
+    "tailwindcss-ripple": "^0.7.1",
     "typescript": "5.0.4",
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "7.0.27",
+    "@storybook/addon-interactions": "7.0.27",
+    "@storybook/addon-links": "7.0.27",
+    "@storybook/blocks": "7.0.27",
+    "@storybook/nextjs": "7.0.27",
+    "@storybook/react": "7.0.27",
+    "@storybook/testing-library": "0.0.14-next.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.14",
+    "cypress": "^12.17.1",
+    "eslint-plugin-storybook": "^0.6.12",
     "postcss": "^8.4.24",
+    "storybook": "7.0.27",
     "tailwindcss": "^3.3.2",
     "tailwindcss-animate": "^1.0.6"
   }

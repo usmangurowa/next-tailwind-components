@@ -16,6 +16,7 @@ module.exports = {
         warning: "#F59E0B",
         success: "#10B981",
         danger: "#DC2626",
+        error: "#DC2626",
         info: "#3B82F6",
 
         "gray-50": "#f7f7f7", // light mode background
@@ -125,10 +126,14 @@ module.exports = {
       ],
     },
   },
+  ripple: (theme) => ({
+    colors: theme("colors"),
+  }),
   plugins: [
     require("@tailwindcss/typography"),
     require("tailwindcss-animate"),
     require("@tailwindcss/forms"),
+    require("tailwindcss-ripple")(),
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
       addUtilities({
         ".size-xs": {

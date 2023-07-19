@@ -22,14 +22,21 @@ const FormSelect = ({
   onBlur,
   ref,
   ...props
-}: SelectProps) => {
-  const { values } = useFormikContext<any>();
-  return <Select value={name ? values?.[name] : value} {...props} />;
+}: SelectProps & { name: string }) => {
+  const { values, setFieldValue } = useFormikContext<any>();
+  return (
+    <Select
+      value={values[name]}
+      onChange={(val) => setFieldValue(name, val, true)}
+      {...props}
+    />
+  );
 };
 
 export const FormButton = ({ children, ref, type, ...props }: ButtonProps) => {
   const { isSubmitting, errors, handleSubmit, handleReset } =
     useFormikContext<any>();
+
   const onClick = React.useCallback(() => {
     if (type === "reset") {
       handleReset();
@@ -37,6 +44,7 @@ export const FormButton = ({ children, ref, type, ...props }: ButtonProps) => {
       handleSubmit();
     }
   }, [type, handleSubmit, handleReset, isSubmitting, errors]);
+
   return (
     <Button
       ref={ref as any}
@@ -69,6 +77,11 @@ export const FormInput = ({
       onChange={handleChange || onChange}
       onBlur={handleBlur}
       error={name ? Boolean(touched?.[name]) && Boolean(errors?.[name]) : false}
+      helperText={
+        name && touched?.[name] && errors?.[name]
+          ? errors?.[name]?.toString()
+          : ""
+      }
       {...props}
     />
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Spinner } from "../loaders";
+import { Spinner } from "../../loaders";
 import { padding_sizes, roundness } from "@/lib/constants";
 import { clf, clsx } from "class-flex";
 import Link, { LinkProps } from "next/link";
@@ -13,6 +13,7 @@ interface VariantProps {
   full?: boolean;
   disabled?: boolean;
   uppercase?: boolean;
+  animation?: "ripple" | "grow" | "none" | "shrink";
 }
 export interface ButtonProps
   extends React.DetailedHTMLProps<
@@ -24,10 +25,11 @@ export interface ButtonProps
   right?: React.ReactNode;
   href?: string;
   linkProps?: Omit<LinkProps, "href"> & { className?: string; href?: string };
+  label?: string;
 }
 
 const btn = clf(
-  "flex items-center justify-center gap-2 whitespace-nowrap relative h-fit transition-all duration-150 ease-in-out active:scale-[.99]",
+  "flex items-center justify-center gap-2 whitespace-nowrap relative h-fit",
   ({ rounded, size }: VariantProps) => ({
     variants: {
       mode: {},
@@ -37,7 +39,6 @@ const btn = clf(
           outlined: `bg-transparent border-2 border-primary hover:bg-primary-hover/20 dark:border-primary-dark  text-primary dark:text-primary-dark`,
           text: `bg-transparent text-primary dark:text-primary-dark`,
         },
-
         secondary: {
           contained: `bg-secondary hover:bg-secondary-hover active:bg-secondary-active dark:bg-secondary-dark hover:dark:bg-secondary-dark-hover active:dark:bg-secondary-dark-active text-white`,
           outlined: `bg-transparent border-2 border-secondary hover:bg-secondary-hover/20 dark:border-secondary-dark  text-secondary dark:text-secondary-dark`,
@@ -49,8 +50,12 @@ const btn = clf(
           text: `bg-transparent text-tertiary dark:text-tertiary-dark`,
         },
       },
+      animation: {
+        ripple: "",
+        shrink: "transition-all duration-150 ease-in-out active:scale-[.99]",
+      },
       rounded: {
-        [rounded as string]: `rounded-${rounded}`,
+        [rounded as string]: roundness[rounded as keyof typeof roundness],
       },
       size: {
         [size as keyof typeof padding_sizes]:
@@ -93,6 +98,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       uppercase = false,
       href,
       linkProps,
+      label,
+      animation = "shrink",
       ...props
     },
     ref
@@ -111,6 +118,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           disabled,
           className,
           uppercase,
+          animation,
         }),
       [
         className,
@@ -122,6 +130,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled,
         variant,
         uppercase,
+        animation,
       ]
     );
 
@@ -145,10 +154,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {...linkProps}
             className={clsx(btnChildClass, linkProps?.className)}
           >
-            {children}
+            {children || label}
           </Link>
         ) : (
-          <span className={btnChildClass}>{children}</span>
+          <span className={btnChildClass}>{children || label}</span>
         )}
         {right}
       </button>

@@ -109,6 +109,8 @@ const Selects = () => {
         options={options}
         inputSize={"lg"}
         helperText="This is a helper text"
+        onChange={(e) => console.log(e)}
+        error={true}
       />
       <Select
         full
@@ -117,6 +119,7 @@ const Selects = () => {
         options={options}
         multiple
         mode="outlined"
+        onChange={(e) => console.log(e)}
       />
       <Select
         full

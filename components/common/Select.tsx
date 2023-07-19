@@ -8,16 +8,19 @@ import { clf, clsx } from "class-flex";
 type OptionType = { label: string; value: string };
 
 export interface SelectProps
-  extends React.DetailedHTMLProps<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      HTMLInputElement
+  extends Omit<
+      React.DetailedHTMLProps<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        HTMLInputElement
+      >,
+      "onChange"
     >,
     SelectClassProps {
   label?: string | React.ReactNode;
   left?: React.ReactNode;
   right?: React.ReactNode;
   helperText?: string;
-
+  onChange?: (value: string | string[]) => void;
   multiple?: boolean;
   options: OptionType[];
   closeOnSelect?: boolean;
@@ -103,6 +106,7 @@ const Select = ({
   variant = "primary",
   helperText,
   error,
+  onChange,
   ...props
 }: SelectProps) => {
   const [focused, setFocused] = React.useState(false);
@@ -134,8 +138,9 @@ const Select = ({
     () =>
       select({
         inputSize,
+        error,
       }),
-    [variant, mode, full, inputSize, rounded, error]
+    [variant, error]
   );
 
   const classes = React.useMemo(
@@ -177,14 +182,19 @@ const Select = ({
         classNames?.options
       ),
       label: clsx(
-        "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
-        { hidden: !label, "text-danger": error },
+        "text-sm font-medium  ml-1",
+        {
+          hidden: !label,
+          "text-danger": error,
+          "text-gray-700 dark:text-gray-300": !error,
+        },
         classNames?.label
       ),
-      helperText: clsx(
-        "text-sm font-medium text-gray-700 dark:text-gray-300 ml-1",
-        { hidden: !helperText, "text-danger": error }
-      ),
+      helperText: clsx("text-sm font-medium  ml-1", {
+        hidden: !helperText,
+        "text-danger": error,
+        "text-gray-700 dark:text-gray-300": !error,
+      }),
     }),
     [
       focused,
@@ -212,13 +222,24 @@ const Select = ({
     (val: OptionType) => {
       if (multiple) {
         if ((selected as OptionType[])?.includes(val)) {
+          onChange?.(
+            (selected as OptionType[])
+              ?.filter((opt) => opt.value !== val.value)
+              .map((opt) => opt.value)
+          );
+
           setSelected((prev) =>
             (prev as OptionType[])?.filter((opt) => opt.value !== val.value)
           );
         } else {
+          onChange?.([
+            ...(selected as OptionType[]).map((opt) => opt.value),
+            val.value,
+          ]);
           setSelected((prev) => [...(prev as OptionType[]), val]);
         }
       } else {
+        onChange?.(val.value);
         setSelected(val);
       }
       setInputValue("");
